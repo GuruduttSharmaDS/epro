@@ -1,0 +1,35 @@
+#sb-containerDel{
+    position:fixed;margin:0;
+    padding:15% 10% 10% 35%;
+    top:0%;
+    left:0%;
+    z-index:999999999999999999999999999999999;
+    text-align:left;
+    height:100%;
+    width:100%; 
+    background: #0e0e0e;
+    opacity: 0.92;
+    display:none;}
+div#sb-containerDel div#sb-wrapper {
+    background: #fff none repeat scroll 0 0;
+    color: #000000;
+    padding: 10px;}
+div#sb-containerDel a {
+    border: medium none;
+    cursor: pointer;
+    float: left;
+    font-family: "Roboto Condensed",sans-serif;
+    font-size: 10.5pt;
+    font-weight: lighter;
+    margin-right: 10px;
+    min-width: 70px;
+    padding: 5px 15px;
+    text-align: center;
+    background: #4B5F71 none repeat scroll 0 0;
+    color: #ffffff;
+    border-radius: 0px;
+}
+
+.btn-light {
+    border-color: #eae9e9 !important;
+}
