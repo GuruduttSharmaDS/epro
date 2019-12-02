@@ -188,7 +188,8 @@
 <div class="modal job-request-popup" id="jobpopup">
 	<div class="modal-dialog  modal-dialog-centered ">
 		<div class="modal-content">
-
+			  <div class="alert alert-danger" style="display:none"></div>
+			    <div class="alert alert-success" style="display:none"></div>
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h1 class="modal-title">Job Request</h1>
@@ -212,7 +213,7 @@
 						
 							<div class="form-group">
 								<label for="category">Category:</label>
-								<select class="form-control" id="category" name="category" required>
+								<select class="form-control" id="category_id" name="category_id" required>
 									@foreach($category_list as $key=>$category)
                                         <option value="{{$key}}"> {{$category}}</option>
 									@endforeach
@@ -281,7 +282,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="start_date">Start Date:</label>
-								<input onchange="getpriceofuser()"  type="text" class="form-control start_date" id="start_date" name="start_date" required>
+								<input onchange="getpriceofuser()"  type="text" class="form-control start_date" id="start_date" name="job_start_on" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select Start Date.</div>
 							</div>
@@ -289,7 +290,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="end_date">End Date:</label>
-								<input  onchange="getpriceofuser()"  type="text" class="form-control end_date" id="end_date" name="end_date" required>
+								<input  onchange="getpriceofuser()"  type="text" class="form-control end_date" id="end_date" name="job_end_on" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select End Date.</div>
 							</div>
@@ -308,8 +309,8 @@
 							<div class="form-group">
 								<label for="pr-type">Price Type:</label>
 								<select class="form-control" id="price_type" name="price_type" onchange="getpriceofuser()" required>
-									<option value="fixed">Fixed</option>
-									<option value="open">Open</option>
+									<option value="0">Fixed</option>
+									<option value="1">Open</option>
 								</select>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
@@ -320,7 +321,7 @@
 								<label for="price">Price:</label>
 								<input type="hidden" value="{{$gaurd->id}}" id="user_id" name="user_id"/>
 								<input type="hidden" value="{{$gaurd->price}}" id="user_price" name="user_price" />
-								<input type="text" disabled class="form-control" id="price" name="price" value="" required>
+								<input type="text" readOnly="true" class="form-control" id="price" name="price" value="" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select Price.</div>
 							</div>

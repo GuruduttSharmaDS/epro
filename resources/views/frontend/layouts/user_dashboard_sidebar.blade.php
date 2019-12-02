@@ -32,6 +32,7 @@
 									<!--<li class=""><a href=""><i class="flaticon-bookmark-star"></i>Bookmarks</a></li>-->
 									<li class=""><a href="{{route('user-change-password')}}"><i class="flaticon-lock"></i>Change Password</a></li>
 									<li class=""><a href=""><i class="flaticon-time"></i>History</a></li>
+									
 									<li class=""><a href="{{route('user-task')}}"><i class="flaticon-task-complete"></i>tasks</a></li>
 									<li><a href="{{route('logoutfront')}}"><i class="flaticon-logout"></i>logout</a></li>
 								</ul>

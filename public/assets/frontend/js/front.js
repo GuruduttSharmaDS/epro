@@ -160,38 +160,37 @@ function jobsubmit(obj,e){
     data:job_data,
     dataType: "json",
     success: function(response) {
-		console.log(response);
-		return false;
       if(response.valid){
-        ResetTextBox(obj);
-        $(obj).find('.msg').html(getMsg(response.msg,1)).css('display','block');
-        if(response.role == 'client')
-          setTimeout(function(){window.location.href=BASEURL+'/client';},2000);
-
-        else if(response.role == 'user') {
-          $('.login_dashboard').find('.login_user_name').text(response.first_name);
-
-          setTimeout(function(){
-            $('.login_regis').addClass('hide');
-            $('.login_dashboard').removeClass('hide');
-            $('#login_regis, #login_signin').modal('hide');
-            $(obj).find('.msg').html('').css('display','none');
+		  ResetTextBox(obj);
+		   $('.alert-success').show();
+           $('.alert-success').append('<p>'+response.message+'</p>');
+		   setTimeout(function(){
+            $('#jobpopup').modal('hide');
           },1000);
-
-        }else
-        setTimeout(function(){(window.location.href=location.href);},1000);
-
+        
       }else{
-        $(obj).find('.msg').html((response.msg)?getMsg(response.msg,2):getMsg('Something is wrong',2)).css('display','block');
-        $(obj).find('.validate-password').html(btntext);
+		  if(response.errors > 0){
+			  $.each(response.errors, function(key, value){
+                  			$('.alert-danger').show();
+                  			$('.alert-danger').append('<p>'+value+'</p>');
+        });
+		  }else{
+			  $('.alert-danger').show();
+              $('.alert-danger').append('<p>'+response.message+'</p>');
+		  }
+		
       }
     },
     error:function(response){
-      $(obj).find('.validate-password').html(btntext);
-      $(obj).find('.msg').html(getMsg('Something is wrong',2)).css('display','block');
-    }
-  });
+		$.each(response.errors, function(key, value){
+                  			$('.alert-danger').show();
+                  			$('.alert-danger').append('<p>'+value+'</p>');
+     
+		
+		});
 	
+}
+	});
 }
 function getpriceofuser (){
 	
@@ -207,12 +206,17 @@ function getpriceofuser (){
 		
 		var total_price = user_price*hour*days;
 		$('#price').val(total_price);
-		if(price_type == 'fixed'){
-			 $('#price').attr("disabled", "disabled");
-		}else if(price_type == 'open'){
-			$('#price').removeAttr('disabled');
+		if(price_type == '1'){
+			$('#price').removeAttr('readOnly');
+		}else{
+			 $('#price').attr("readOnly", "readOnly");
 		}
 	}else{
+		if(price_type == '0'){
+			 $('#price').attr("readOnly", "readOnly");
+		}else if(price_type == '1'){
+			$('#price').removeAttr('readOnly');
+		}
 		$('#price').val(0);
 	}
 	

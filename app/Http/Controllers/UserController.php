@@ -29,7 +29,7 @@ public function index(){
     $pageTitle = "Dashboard";
     $common_lib = new Common_helper();
     $user_id = session::get('roleId');
-     $user = User::with(['category_detail'])
+    $user = User::with(['category_detail'])
        ->where('id', '=', $user_id)
        ->first();
 
