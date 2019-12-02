@@ -358,6 +358,27 @@
     </div>
     </div>
 </div>
-<script type="text/javascript">
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script>
+$(document).ready(function() {
+	$('.start_date').datepicker({
+		multidate: false,		
+		startDate: new Date()
+	
+	}).on('changeDate', function (selected) {
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        $('.end_date').datepicker('setStartDate', startDate);
+    });
+	
+	$('.end_date').datepicker({
+	    multidate: false,
+		startDate: new Date()
+	}).on('changeDate', function (selected) {
+        FromEndDate = new Date(selected.date.valueOf());
+        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+        $('.start_date').datepicker('setEndDate', FromEndDate);
+    });
+});
 
 </script>

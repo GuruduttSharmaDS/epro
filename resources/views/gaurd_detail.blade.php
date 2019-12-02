@@ -100,7 +100,7 @@
                                 <h3><strong>22</strong><br>Rehired</h3>
                             </div>
                             <h5 class="name_desg"><a href="#" sendOfferModel data-toggle="modal" data-target="#sendOfferModel">Make a Offer</a></h5>
-							<h5 class="name_desg"><a href="#" sendOfferModel data-toggle="modal" data-target="#sendOfferModel"></a></h5>
+							<h5 class="name_desg"><a href="#" jobpopup data-toggle="modal" data-target="#jobpopup">Hire</a></h5>
                             <div class="achieve">
                                 <h3>Skills</h3>
                                 <ul>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-<div class="modal fade" id="sendOfferModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="sendOfferModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -185,7 +185,7 @@
   </div>
 </div>
 <!-- job request popup -->
-<div class="modal job-request-popup" id="sendOfferModel">
+<div class="modal job-request-popup" id="jobpopup">
 	<div class="modal-dialog  modal-dialog-centered ">
 		<div class="modal-content">
 
@@ -198,40 +198,46 @@
 			<div class="login_form">
 				<form action="#" id="jobsubmit" class="needs-validation" onsubmit="jobsubmit(this,event)" novalidate>
 				@csrf
+				<input type="hidden" value="ajax_jobrequest" name="action" />
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="job-title">Job Title:</label>
-								<input type="text" class="form-control" id="job-title"  name="" required>
+								<input type="text" class="form-control" id="title"  name="title" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
 						</div>
 						<div class="col-md-6">
+						
 							<div class="form-group">
 								<label for="category">Category:</label>
-								<select class="form-control" id="category" required>
-									<option></option>
-									<option>abc</option>
-									<option>abc</option>
-									<option>abc</option>
+								<select class="form-control" id="category" name="category" required>
+									@foreach($category_list as $key=>$category)
+                                        <option value="{{$key}}"> {{$category}}</option>
+									@endforeach
 								</select>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select any Category.</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-8">
 							<div class="form-group">
-								<label for="country">Country:</label>
-								<input type="text" class="form-control" id="country"  name="" required>
+								<label for="address">Address:</label>
+								<textarea class="form-control" id="address" name="address" rows="2" required></textarea>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="city">City:</label>
-								<input type="text" class="form-control" id="city" name="" required>
+								<label for="country">Country:</label>
+								<select class="form-control" id="country" name="country" onchange="state_list(this.value,event)" required>
+								<option>Select Country</option>
+								@foreach($country_list as $key=>$category)
+                                        <option value="{{$key}}"> {{$category}}</option>
+									@endforeach
+								</select>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
@@ -239,15 +245,27 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="state">State:</label>
-								<input type="text" class="form-control" id="state" name="" required>
+								<select class="form-control" id="state" name="state" onchange="city_list(this.value,event)" required>
+								<option>Select State</option>
+								</select>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="address">Address:</label>
-								<input type="text" class="form-control" id="address" name="" required>
+								<label for="city">City:</label>
+								<select class="form-control" id="city" name="city" required>
+								<option>Select City</option>
+								</select>
+								<div class="valid-feedback">Valid.</div>
+								<div class="invalid-feedback">Please fill out this field.</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="job-title">Pincode:</label>
+								<input type="text" class="form-control" id="pincode"  name="pincode" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
@@ -255,7 +273,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="JobDes">Job description:</label>
-								<textarea class="form-control" id="JobDes" name="" rows="6" required></textarea>
+								<textarea class="form-control" id="JobDes" name="description" rows="6" required></textarea>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
@@ -263,7 +281,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="start_date">Start Date:</label>
-								<input type="text" class="form-control start_date" id="start_date" required>
+								<input onchange="getpriceofuser()"  type="text" class="form-control start_date" id="start_date" name="start_date" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select Start Date.</div>
 							</div>
@@ -271,15 +289,28 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="end_date">End Date:</label>
-								<input type="text" class="form-control end_date" id="end_date" required>
+								<input  onchange="getpriceofuser()"  type="text" class="form-control end_date" id="end_date" name="end_date" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select End Date.</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
+								<label for="pr-type">Working Hour/Day</label>
+								<input onchange="getpriceofuser()" onkeyup="getpriceofuser()" type="number" min=1 max=24 class="form-control" id="working_hour" name="working_hour" required>
+								<div class="valid-feedback">Valid.</div>
+								<div class="invalid-feedback">Please fill out this field.</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
 								<label for="pr-type">Price Type:</label>
-								<input type="text" class="form-control" id="pr-type" name="" required>
+								<select class="form-control" id="price_type" name="price_type" onchange="getpriceofuser()" required>
+									<option value="fixed">Fixed</option>
+									<option value="open">Open</option>
+								</select>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please fill out this field.</div>
 							</div>
@@ -287,12 +318,9 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="price">Price:</label>
-								<select class="form-control" id="price" required>
-									<option></option>
-									<option>500</option>
-									<option>1000</option>
-									<option>1200</option>
-								</select>
+								<input type="hidden" value="{{$gaurd->id}}" id="user_id" name="user_id"/>
+								<input type="hidden" value="{{$gaurd->price}}" id="user_price" name="user_price" />
+								<input type="text" disabled class="form-control" id="price" name="price" value="" required>
 								<div class="valid-feedback">Valid.</div>
 								<div class="invalid-feedback">Please Select Price.</div>
 							</div>
@@ -304,7 +332,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="sendOfferModeld" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="sendOfferModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

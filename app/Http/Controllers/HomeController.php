@@ -20,9 +20,26 @@ use Validator;
 use Session;
 use DB;
 use Mail;
+use View;
 
 class HomeController extends Controller
 {
+	
+	public function __construct()
+    {
+		//parent::__construct();
+		
+			$category_list = Category::all()
+			->where('status', '=', '0')   
+			->pluck('category_name', 'id');
+		 
+			$country_list =  DB::table('fp_countries')
+			->pluck('name', 'id');
+		 
+			View::share( 'category_list', $category_list );
+			View::share ( 'country_list', $country_list);
+
+    }
   public function index(){
 
    // $users = DB::select('select user.id, user.*, (SELECT skill from fp_skills where fp_skills.id  = (SELECT skill_id from fp_user_skills where fp_user_skills.user_id  = user.id limit 0,1)  limit 0,1) as skill from fp_users as user where user.status =0');
@@ -79,9 +96,8 @@ class HomeController extends Controller
   }
 
   public function gaurdDetail($id= null){
-     $user_id = session::get('roleId');
-      $common_lib = new Common_helper();
-
+		$user_id = session::get('roleId');
+		$common_lib = new Common_helper();
          $count_view = DB::table("fp_user_profile_views")
          ->where('created_at', 'like', date('Y-m-d').'%')
          ->where('user_id', '=', $id)
@@ -102,8 +118,7 @@ class HomeController extends Controller
        ->first();
         
         $total_count = $common_lib->getTotalRating($id);
- $job_done_count =  $common_lib->getTotalJobDoneByGaurd($id);
-   
+		$job_done_count =  $common_lib->getTotalJobDoneByGaurd($id);
         $reviews = UserReview::with(['job_detail'])
                   ->where('user_id', '=', $id)
                   ->paginate(5);

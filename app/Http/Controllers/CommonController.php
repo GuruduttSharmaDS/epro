@@ -34,7 +34,13 @@ class CommonController extends Controller
     else if($action=="password_mail")
       $return = $this->password_mail($data);
     else if($action=="ajaximage")
-      $return = $this->ajaximage($data);
+      $return = $this->ajaximage($data); 
+    else if($action=="ajax_jobrequest")
+      $return = $this->ajax_jobrequest($data);
+    else if($action=="getstate")
+      $return = $this->getstate($data);
+  else if($action=="getcity")
+      $return = $this->getcity($data);
 
     return response()->json($return);
 
@@ -232,6 +238,75 @@ class CommonController extends Controller
 
       }
     return $response;
+  }
+  
+  public function ajax_jobrequest($data){
+	  print_r($data->title);exit;
+	if(isset($_POST) && !empty($_POST)){
+		
+		$validationOn =  array(
+				"title"=>$data->title,
+                "category"=>$data->category,
+                "address" => $data->address,
+				"country" => $data->country,
+				"state" => $data->state,
+				"city" => $data->city,
+				"pincode" => $data->pincode,
+				"description" => $data->description,
+				"start_date" => $data->start_date,
+				"end_date" => $data->end_date,
+				"working_hour" => $data->working_hour,
+				"price_type" => $data->price_type,
+				"user_id" => $data->user_id,
+				"price" => $data->price
+            );
+			$validateRule=  array(
+				"title"=>"required",
+                "category"=>"required",
+                "address" => "required",
+				"country" => "required",
+				"state" => "required",
+				"city" => "required",
+				"pincode" => "required",
+				"description" => "required",
+				"start_date" => "required",
+				"end_date" => "required",
+				"working_hour" => "required",
+				"price_type" => "required",
+				"user_id" => "required",
+				"price" => "required"
+                
+            );
+			 
+           $validator = Validator::make($validationOn,$validateRule);
+        if ($validator->fails()){
+			
+			
+            //return redirect("/contact-us")->withErrors($validator)->withInput();
+  
+        }
+		
+	}
+	  
+  }
+ public function getstate($data){
+	 $response = array('valid' => false, 'msg'=>'Invalid Request');  
+	 	$state_list = DB::table('fp_states')
+			->where('country_id', '=', $_POST['country_id'])   
+			->pluck('name', 'id');
+	   $response['valid'] = true;
+	   $response['data'] = $state_list; 
+	   return $response;
+  
+  } 
+  public function getcity($data){
+		$response = array('valid' => false, 'msg'=>'Invalid Request');  
+	 	$city_list = DB::table('fp_cities')
+			->where('state_id', '=', $_POST['state_id'])   
+			->pluck('name', 'id');
+	   $response['valid'] = true;
+	   $response['data'] = $city_list; 
+	   return $response;
   }
 
  

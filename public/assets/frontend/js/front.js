@@ -153,22 +153,15 @@ function registration(obj,e){
 
 function jobsubmit(obj,e){
 	  e.preventDefault();
-	  console.log(obj);
-	  return false;
-  $(obj).find('.msg').html('').css('display','none');
-  var role =  $(obj).find('input[name=role]:checked').val();
-  var action =  $(obj).find('input[name=action]').val();
-  var firstname = $(obj).find('input[name=fname]').val();
-  var lastname = $(obj).find('input[name=lname]').val();
-  var email = $(obj).find('input[name=email]').val();
-  var password = $(obj).find('input[name=pswd]').val();
-  $.ajax({
+	  job_data = $("#jobsubmit").serialize();
+	$.ajax({
     url: COMMONURL,
     type:'POST',
-    data: {action:action, _token:_token, role:role, firstname:firstname, lastname:lastname, email:email, password:password},
+    data:job_data,
     dataType: "json",
-
-    success: function(response) {   
+    success: function(response) {
+		console.log(response);
+		return false;
       if(response.valid){
         ResetTextBox(obj);
         $(obj).find('.msg').html(getMsg(response.msg,1)).css('display','block');
@@ -196,6 +189,91 @@ function jobsubmit(obj,e){
     error:function(response){
       $(obj).find('.validate-password').html(btntext);
       $(obj).find('.msg').html(getMsg('Something is wrong',2)).css('display','block');
+    }
+  });
+	
+}
+function getpriceofuser (){
+	
+	var user_price = $('#user_price').val();
+	var price_type = $('#price_type').val();
+	var hour = $('#working_hour').val();
+	var start_date = new Date($('#start_date').val());
+	var end_date = new Date($('#end_date').val());
+	var Diff = end_date.getTime() - start_date.getTime();
+	var days = Diff/ (1000 * 3600 * 24);
+	var days = days+1;
+	if(hour > 0 && days> 0){
+		
+		var total_price = user_price*hour*days;
+		$('#price').val(total_price);
+		if(price_type == 'fixed'){
+			 $('#price').attr("disabled", "disabled");
+		}else if(price_type == 'open'){
+			$('#price').removeAttr('disabled');
+		}
+	}else{
+		$('#price').val(0);
+	}
+	
+  
+}
+function state_list(obj,e){
+	  e.preventDefault();
+	  country_id = obj;
+	  $("#state").empty();
+      $("#city").empty();
+       $("#state").append('<option>Loading</option>')
+	  var action =  'getstate';
+ 
+  $.ajax({
+    url: COMMONURL,
+    type:'POST',
+	headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+    data:{action:action,country_id:country_id},
+    dataType: "json",
+    success: function(response) {
+		 $("#state").empty();
+		 $("#state").append('<option>Select State</option>');
+		 $("#city").empty();
+		  $("#city").append('<option>Select City</option>'); 
+        if(response.valid){
+         
+          $.each(response.data,function(key,value){
+            $("#state").append('<option value="'+key+'">'+value+'</option>');
+         });
+        }
+    },
+    error:function(response){
+          
+    }
+  });
+	
+}
+function city_list(obj,e){
+	  e.preventDefault();
+	  state_id = obj;
+	  $("#city").empty();
+      $("#city").append('<option>Loading</option>')
+	  var action =  'getcity';
+ 
+  $.ajax({
+    url: COMMONURL,
+    type:'POST',
+	headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+    data:{action:action,state_id:state_id},
+    dataType: "json",
+    success: function(response) {
+		 $("#city").empty();
+		  $("#city").append('<option>Select City</option>');
+        if(response.valid){
+          $.each(response.data,function(key,value){
+            $("#city").append('<option value="'+key+'">'+value+'</option>');
+         });
+        }
+    },
+    error:function(response){
+          
     }
   });
 	

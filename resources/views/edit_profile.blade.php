@@ -184,8 +184,8 @@
 												<div class="custom-multifield">
 												  <select class="form-control" id="category_id" name="category_id">
 												  	  @foreach($category_list as $key=>$category)
-                                                <option value="{{$key}}" {{ $user->category == $key ? 'selected' : '' }}> {{$category}}</option>
-                                                @endforeach
+													<option value="{{$key}}" {{ $user->category == $key ? 'selected' : '' }}> {{$category}}</option>
+													@endforeach
 												  </select>
 												   {!! $errors->first('category_id', '<p class="help-block">:message</p>') !!}
 												</div>
