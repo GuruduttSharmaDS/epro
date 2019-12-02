@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Hash;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Job;
+use App\Models\JobRequest;
 use App\Models\Category;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -241,20 +243,20 @@ class CommonController extends Controller
   }
   
   public function ajax_jobrequest($data){
-	  print_r($data->title);exit;
+	 $response = array('valid' => false, 'data'=>'Invalid Request');
 	if(isset($_POST) && !empty($_POST)){
-		
+	
 		$validationOn =  array(
 				"title"=>$data->title,
-                "category"=>$data->category,
+                "category_id"=>$data->category_id,
                 "address" => $data->address,
 				"country" => $data->country,
 				"state" => $data->state,
 				"city" => $data->city,
 				"pincode" => $data->pincode,
 				"description" => $data->description,
-				"start_date" => $data->start_date,
-				"end_date" => $data->end_date,
+				"job_start_on" => $data->job_start_on,
+				"job_end_on" => $data->job_end_on,
 				"working_hour" => $data->working_hour,
 				"price_type" => $data->price_type,
 				"user_id" => $data->user_id,
@@ -262,15 +264,15 @@ class CommonController extends Controller
             );
 			$validateRule=  array(
 				"title"=>"required",
-                "category"=>"required",
+                "category_id"=>"required",
                 "address" => "required",
 				"country" => "required",
 				"state" => "required",
 				"city" => "required",
 				"pincode" => "required",
 				"description" => "required",
-				"start_date" => "required",
-				"end_date" => "required",
+				"job_start_on" => "required",
+				"job_end_on" => "required",
 				"working_hour" => "required",
 				"price_type" => "required",
 				"user_id" => "required",
@@ -281,11 +283,38 @@ class CommonController extends Controller
            $validator = Validator::make($validationOn,$validateRule);
         if ($validator->fails()){
 			
-			
+			$response['errors'] = $validator->errors();
             //return redirect("/contact-us")->withErrors($validator)->withInput();
   
-        }
-		
+        }else{
+			$job = new Job;
+			$job->title = $data->title;
+			$job->description = $data->description;
+			$job->category_id = $data->category_id;
+			$job->client_id = session::get('roleId');
+			$job->price_type = $data->price_type;
+			$job->working_hour = $data->working_hour;
+			$job->job_end_on = date('Y-m-d', strtotime($data->job_end_on));
+			$job->job_start_on = date('Y-m-d', strtotime($data->job_start_on));
+			$job->price = $data->price;
+			$job->country_id = $data->country;
+			$job->state_id = $data->state;
+			$job->city_id = $data->city;
+			$job->pincode = $data->pincode;
+			$job->address = $data->address;
+			//$job->user_id = $data->user_id;
+		 if($job->save()){
+			$job_request = new JobRequest;
+			$job_request->user_id = $data->user_id;
+			$job_request->client_id = session::get('roleId');
+			$job_request->job_id = $job->id;
+			$job_request->save();
+			$response = array('valid' => true,'message' => 'Job Post successfully.');
+		 }else{
+			 $response = array('valid' => false,'message' => 'Invalid Request.');
+		 }
+		}
+		return $response;
 	}
 	  
   }

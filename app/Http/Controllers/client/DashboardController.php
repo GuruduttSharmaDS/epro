@@ -24,9 +24,9 @@ class DashboardController extends Controller
 		$user = Client::with([])
 			->where('id', '=', $user_id)
 			->first();
-		$statisticsData = DB::select('SELECT count(*) as totalJobs, (SELECT count(*) as 
+		/*$statisticsData = DB::select('SELECT count(*) as totalJobs, (SELECT count(*) as 
 										pendingBids from fp_job_bids where status = 0 AND fp_jobs.id = job_id) 
-										as pendingBids from fp_jobs where fp_jobs.status < 3 group by id');
+										as pendingBids from fp_jobs where fp_jobs.status < 3 group by id');*/
 		$totalRating = $common_lib->getTotalRating($user_id);   
 		$JobDone =  $common_lib->getTotalJobDoneByGaurd($user_id);
 		$totalProfileView =  $common_lib->getTotalProfileView($user_id);
@@ -37,7 +37,7 @@ class DashboardController extends Controller
                   ->where('user_id', '=', $user_id)
                   ->paginate(5);              
 
-		return view("client/client_dashboard",compact('statisticsData','pageTitle','user','totalRating','JobDone','totalRating','totalProfileView','reviews','HireComapny'));
+		return view("client/client_dashboard",compact('pageTitle','user','totalRating','JobDone','totalRating','totalProfileView','reviews','HireComapny'));
   	}
   	public function profile(){
    		$statisticsData = DB::select('SELECT count(*) as totalJobs, (SELECT count(*) as pendingBids from fp_job_bids where status = 0 AND fp_jobs.id = job_id) as pendingBids from fp_jobs where fp_jobs.status < 3 group by id');

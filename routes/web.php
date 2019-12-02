@@ -101,5 +101,6 @@ Route::get('/client/edit-profile','client\DashboardController@edit_profile')->na
 Route::post("/client/save-client-data", "client\DashboardController@save_user_data")->name("saveclientdata");
 Route::get('/client/client-task','client\DashboardController@user_task')->name("client-task");
 Route::get('/client/job/create','client\JobController@create')->name("client-job-create");
+Route::get('/client/job/job-request','client\JobController@request_listing')->name("client-request");
 
 });

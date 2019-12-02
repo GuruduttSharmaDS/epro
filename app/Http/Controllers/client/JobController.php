@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\client;
-
-use App\Models\client\job;
+use App\Models\JobRequest;
+use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
+use Validator;
+use DB;
 
 class JobController extends Controller
 {
@@ -13,6 +16,17 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	 public function __construct()
+    {
+		//parent::__construct();
+		
+			
+			$country_list =  DB::table('fp_countries')
+			->pluck('name', 'id');
+		 
+			View::share ( 'country_list', $country_list);
+
+    }
     public function index()
     {
         //
@@ -82,5 +96,16 @@ class JobController extends Controller
     public function destroy(job $job)
     {
         //
+    }
+	 public function request_listing()
+    {
+		$pageTitle = "Job Request";
+		$client_id = session::get('roleId');
+		$jobs = JobRequest::with([])
+		->where('client_id', '=', $client_id)
+		->all();
+		
+		return view("client/client_change_password",compact('jobs','pageTitle'));
+        
     }
 }
