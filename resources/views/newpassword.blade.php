@@ -2,7 +2,7 @@
 
 @section('title', 'FreelanceEP')
 @section('body')
-<div class="login_form">
+<div class="login_form" style="margin-top:100px;margin-left:30%;margin-bottom:50px;">
                 <div class="alert alert-danger print-error-msg" style="display:none">
                     <ul></ul>
                 </div>

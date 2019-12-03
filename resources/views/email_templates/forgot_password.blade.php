@@ -46,7 +46,7 @@
           <tbody>
             <tr>
               <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; line-height: 1.4; font-weight: 300; text-align: center; font-size: 12px; color: #464646" align="center">
-                  Reply to this email will not be read. If you need to contact us please see how to do so <a href="/" target="_blank" style="color: #125b9c;text-decoration: none;"><b>here|</b></a>.
+                  Reply to this email will not be read. If you need to contact us please see how to do so <a href="{{ route('home') }}" target="_blank" style="color: #125b9c;text-decoration: none;"><b>here |</b></a>.
               </td>
             </tr>
           </tbody>
