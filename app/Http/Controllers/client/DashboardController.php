@@ -17,6 +17,11 @@ use Hash;
 class DashboardController extends Controller
 {
     
+    public function __construct()
+    {
+		parent::__construct();
+
+    }
   	public function index(){
 		$pageTitle = "Dashboard";
 		$common_lib = new Common_helper();
@@ -55,7 +60,13 @@ class DashboardController extends Controller
     $user = Client::with([])
        ->where('id', '=', $user_id)
        ->first();
-    return view("client/client_edit_profile",compact('user','pageTitle'));
+       $state_list =  DB::table('fp_states')
+       ->where('country_id', '=', $user->country)     
+       ->pluck('name', 'id');
+       $city_list =  DB::table('fp_cities')
+       ->where('state_id', '=', $user->state)     
+       ->pluck('name', 'id');
+    return view("client/client_edit_profile",compact('user','pageTitle','state_list','city_list'));
   }
    public function change_password(Request $request){
     $pageTitle = "Change Password";
@@ -120,13 +131,13 @@ class DashboardController extends Controller
                $validateRule=  array(
                 "first_name"=>"required",
                 "last_name"=>"required",
-                "phone"=>"required|numeric",
+                "phone"=>"required|numeric|max:10|min:8",
                 "email"=>"required|email",
                 "dob"=>"required",
                 "gender"=>"required", 
                 "address_line_1"=>"required",
                 "city"=>"required",
-				"pincode"=>"required",
+				"pincode"=>"required|numeric|max:6|min:4",
                 "state"=>"required",
                 "country"=>"required"
             );
@@ -135,6 +146,7 @@ class DashboardController extends Controller
 			 $request->session()->flash("errormsg", "Something wrong.");
           return redirect("/client/edit-profile")->withErrors($validator)->withInput();
         }
+       
         $user = Client::find($user_id);
         $common_lib = new Common_helper();
         $slug = $common_lib->createSlug($request->first_name,$user_id,'fp_clients');

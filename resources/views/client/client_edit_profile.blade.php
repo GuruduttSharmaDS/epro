@@ -95,13 +95,13 @@
 											</div>
 											<div class="col-md-6">
 											 <label for="dob">Date Of Birth</label>
-                                            <input type="date" class="form-control" id="dob" name="dob" value="{{ $user->dob }}" required="">
+                                            <input type="date" class="form-control" id="dob" name="dob" value="{{ $user->dob }}" >
                                              {!! $errors->first('dob', '<p class="help-block">:message</p>') !!}
                                             </div>
 											 <div class="col-md-12">
 												<label for="place">Address</label>
 												<div class="form-group">
-													<input type="text" id="address_line_1" name="address_line_1" placeholder="Enter Address Line 1" value="{{ $user->address_line_1 }} " required="" class="form-control">
+													<input type="text" id="address_line_1" name="address_line_1" placeholder="Enter Address Line 1" value="{{ $user->address_line_1 }} " class="form-control">
 													 {!! $errors->first('address_line_1', '<p class="help-block">:message</p>') !!}
 													
 												</div>
@@ -109,7 +109,13 @@
                                             <div class="col-md-6">
 												<label for="place">Country</label>
 												<div class="form-group">
-													 <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country" value="{{ $user->country }}" required="">
+												<select class="form-control" id="country" name="country" onchange="state_list(this.value,event)" >
+													<option  value="">Select Country</option>
+													@foreach($country_list as $key=>$category)
+															<option {{ $user->country == $key ? 'selected' : '' }} value="{{$key}}"> {{$category}}</option>
+														@endforeach
+												</select>
+													
 													 {!! $errors->first('country', '<p class="help-block">:message</p>') !!}
 													
 												</div>
@@ -117,7 +123,12 @@
 											<div class="col-md-6">
 												<label for="place">State</label>
 												<div class="form-group">
-													<input type="text" class="form-control" id="state" name="state" placeholder="Enter State" value="{{ $user->state }}" required="">
+												<select class="form-control" id="state" name="state" onchange="city_list(this.value,event)" >
+												<option  value="">Select State</option>
+												@foreach($state_list as $key=>$state)
+															<option {{ $user->state == $key ? 'selected' : '' }} value="{{$key}}"> {{$state}}</option>
+														@endforeach
+												</select>
 													 {!! $errors->first('state', '<p class="help-block">:message</p>') !!}
 													
 												</div>
@@ -125,7 +136,12 @@
 											<div class="col-md-6">
 												<label for="place">City</label>
 												<div class="form-group">
-													<input type="text" class="form-control" id="city" name="city" placeholder="Enter City" value="{{ $user->city }}" required="">
+												<select class="form-control" id="city" name="city" >
+													<option value="">Select City</option>
+													@foreach($city_list as $key=>$city)
+															<option {{ $user->city == $key ? 'selected' : '' }} value="{{$key}}"> {{$city}}</option>
+														@endforeach
+												</select>
 													 {!! $errors->first('city', '<p class="help-block">:message</p>') !!}
 													
 												</div>
@@ -134,7 +150,7 @@
 											<div class="col-md-6">
 												<label for="place">Pincode</label>
 												<div class="form-group">
-													<input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter pincode" value="{{ $user->pincode }}" required="">
+													<input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter pincode" value="{{ $user->pincode }}" >
 													 {!! $errors->first('pincode', '<p class="help-block">:message</p>') !!}
 													
 												</div>
