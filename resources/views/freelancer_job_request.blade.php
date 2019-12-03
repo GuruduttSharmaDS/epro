@@ -28,18 +28,23 @@
 										
 										</time>
 										<h5>
-										<?php
-										if($job->job_status == 0){
-											echo "Pending";
-										}else if($job->job_status == 1){
-											echo "Accepted";
-										}else{
-											echo "Declined";
-										}
-										?>
+										
 										</h5>
 										
 
+										</div>
+										<div class="pending-button">
+										<?php
+										if($job->job_status == 0){
+											echo '<a class="blu" href="">Pending</a>';
+											
+										}else if($job->job_status == 1){
+											echo '<a class="green" href="">Accepted</a>';
+										
+										}else{
+											echo '<a class="yello" href="">Declined</a>';
+										}
+										?>
 										</div>
 										<p>
 										{{$job->description}}

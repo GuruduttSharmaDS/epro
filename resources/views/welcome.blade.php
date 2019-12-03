@@ -159,7 +159,7 @@
                             if(!empty($user->image)){
                                 $img = $user->image;
                             }else{
-                        $img = 'no-img.png';
+                                $img = 'no-img.png';
 
                             } ?>
                         <span class="slick_img"><img src="{{asset('/uploads/'.$img)}}" alt="Signup(it's free)"></span>
