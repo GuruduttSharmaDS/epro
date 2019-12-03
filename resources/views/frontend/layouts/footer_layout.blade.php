@@ -80,7 +80,13 @@
         </div>
     </body>
     <script>
+        	
+           
         $(document).ready(function(){
+            $('#available_cities').bind('keypress keydown keyup', function(e){
+       if(e.keyCode == 13) { e.preventDefault(); }
+    });
+           
             $(document).on('click', '.contact-us-button', function(event){
                 event.preventDefault();
                 $('#contact-form').submit();
@@ -166,6 +172,14 @@
             })();
 
         });
+        var preventSubmit = function(event) {
+        if(event.keyCode == 13) {
+            console.log("caught ya!");
+            event.preventDefault();
+            //event.stopPropagation();
+            return false;
+        }
+    }
 </script>
 
 

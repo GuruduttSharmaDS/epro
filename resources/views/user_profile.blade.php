@@ -103,7 +103,10 @@
 										<tr>
 											<th>Weapon:</th>
 											<td width="40px" align="Center">:</td>
-											<td>{{ $user->weapon_detail->weapon_name}}</td>
+											<td>@if(isset($user->weapon_detail->weapon_name) && !empty($user->weapon_detail->weapon_name)
+											){{ $user->weapon_detail->weapon_name}}@else
+											N/A
+											@endif</td>
 										</tr>
 									</table>
 									<h3>About me</h3>

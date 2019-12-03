@@ -174,6 +174,12 @@
     $(function () {
     $('.selectpicker').selectpicker();
 });
+$(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+  if(e.keyCode == 13) {
+    e.preventDefault();
+    return false;
+  }
+});
 </script>
 			<script>
 				$('.date').datepicker({
