@@ -91,7 +91,8 @@ Route::group([ "middleware" => "userdashboard"], function(){
     Route::match(['get', 'post'], '/user-dashboard/change-password', 'UserController@change_password')->name("user-change-password");
 	Route::get('/user-dashboard/edit-profile','UserController@edit_profile')->name("user-edit-profile");
 	Route::post("/user-dashboard/save-user-data", "UserController@save_user_data")->name("saveuserdata");
-    Route::get('/user-dashboard/user-task','UserController@user_task')->name("user-task");
+	Route::get('/user-dashboard/user-task','UserController@user_task')->name("user-task");
+	Route::get('/user-dashboard/job-request','UserController@request_listing')->name("job-request");
 });
 
 Route::group([ "middleware" => "clientdashboard"], function(){

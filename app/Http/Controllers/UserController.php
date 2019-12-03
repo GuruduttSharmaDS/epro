@@ -80,13 +80,14 @@ public function save_user_data(Request $request){
                $validateRule=  array(
                 "first_name"=>"required",
                 "last_name"=>"required",
-                "phone"=>"required|numeric",
+                "phone"=>"required|numeric|min:8",
                 "email"=>"required|email",
                 "dob"=>"required",
                 "gender"=>"required", 
                 "address_line_1"=>"required",
-                "city"=>"required",
 				"pincode"=>"required",
+                "city"=>"required",
+				"pincode"=>"required|numeric|min:4",
                 "state"=>"required",
                 "country"=>"required",
                 "work_experience" => "required",
@@ -144,7 +145,8 @@ public function save_user_data(Request $request){
         $user->weapon_valid_upto = date('Y-m-d', strtotime($request->weapon_valid_upto));
 		$user->is_online = $request->is_online;
 		 if($user->save()){
-			 DB::table('fp_user_skills')->where('user_id',$user_id)->delete();
+             
+             DB::table('fp_user_skills')->where('user_id',$user_id)->delete();
 			foreach ($request->skill as $value) {
 				$Skilldata = array('skill_id'=>$value,'user_id'=> $user_id,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s'));
 				DB::table('fp_user_skills')->insert($Skilldata);
@@ -178,7 +180,13 @@ public function save_user_data(Request $request){
     $user = User::with(['category_detail'])
        ->where('id', '=', $user_id)
        ->first();
-    return view("edit_profile",compact('user','pageTitle','skill_list','category_list','weapon_list'));
+       $state_list =  DB::table('fp_states')
+       ->where('country_id', '=', $user->country)     
+       ->pluck('name', 'id');
+       $city_list =  DB::table('fp_cities')
+       ->where('state_id', '=', $user->state)     
+       ->pluck('name', 'id');
+    return view("edit_profile",compact('user','pageTitle','skill_list','category_list','weapon_list','state_list','city_list'));
   }
 
 
@@ -258,6 +266,29 @@ public function save_user_data(Request $request){
             $user->save();
             return $new_name;
         }
+    }
+    public function request_listing()
+    {
+		$user_id = session::get('roleId');
+		$user = User::with(['category_detail'])
+       ->where('id', '=', $user_id)
+       ->first();
+		$pageTitle = "Job Request";
+        $jobs = DB::table('fp_jobs')
+                 ->select('fp_jobs.*', 'fp_cities.name as city','fp_countries.name as country',
+                 'fp_states.name as state','fp_job_requests.*','fp_job_requests.status as job_request_status')
+                 ->join('fp_job_requests', 'fp_job_requests.job_id', '=', 'fp_jobs.id')
+                 ->join('fp_cities', 'fp_cities.id', '=', 'fp_jobs.city_id')
+                 ->join('fp_countries', 'fp_countries.id', '=', 'fp_jobs.country_id')
+                 ->join('fp_states', 'fp_states.id', '=', 'fp_jobs.state_id')
+                 ->where('fp_job_requests.user_id', '=', $user_id)
+                 ->where('fp_jobs.status', '!=', 3)
+                 ->where('fp_job_requests.status', '=', 0)
+                 ->get();
+             
+		
+		return view("freelancer_job_request",compact('jobs','pageTitle','user'));
+        
     }
 
 }

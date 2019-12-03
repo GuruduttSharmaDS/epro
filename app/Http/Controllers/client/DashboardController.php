@@ -132,13 +132,13 @@ class DashboardController extends Controller
                $validateRule=  array(
                 "first_name"=>"required",
                 "last_name"=>"required",
-                "phone"=>"required|numeric|max:10|min:8",
+                "phone"=>"required|numeric|min:8",
                 "email"=>"required|email",
                 "dob"=>"required",
                 "gender"=>"required", 
                 "address_line_1"=>"required",
                 "city"=>"required",
-				"pincode"=>"required|numeric|max:6|min:4",
+				"pincode"=>"required|numeric|min:4",
                 "state"=>"required",
                 "country"=>"required"
             );

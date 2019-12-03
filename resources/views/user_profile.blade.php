@@ -78,19 +78,30 @@
 											<td width="40px" align="Center">:</td>
 											<td>{{$user->available_pincodes}}</td>
 										</tr>
-										<!--<tr>
+										<tr>
 											<th>Skills</th>
 											<td width="40px" align="Center">:</td>
 											<td>
 												<?php
 											 $Skills = user_skill_data($user->id);
-											 echo "<pre>";
-											 print_r($Skills);	
+											 $count = count($Skills);
+										     $k = 1;
+											 foreach($Skills as $skill){
+												 if($k== $count){
+													echo $skill->skill_data->skill;
+
+												 }else{
+													echo $skill->skill_data->skill.", ";
+
+												 }
+												$k++;
+												}
+										
 											?>
 											</td>
-										</tr>-->
+										</tr>
 										<tr>
-											<th>Weapons list:</th>
+											<th>Weapon:</th>
 											<td width="40px" align="Center">:</td>
 											<td>{{ $user->weapon_detail->weapon_name}}</td>
 										</tr>

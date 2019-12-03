@@ -108,6 +108,8 @@ class JobController extends Controller
         $client_id = session::get('roleId');
         
         $jobs = DB::table('fp_jobs')
+                 ->select('fp_jobs.*', 'fp_cities.name as city','fp_countries.name as country',
+                 'fp_states.name as state','fp_job_requests.*','fp_job_requests.status as job_request_status')
                  ->join('fp_job_requests', 'fp_job_requests.job_id', '=', 'fp_jobs.id')
                  ->join('fp_cities', 'fp_cities.id', '=', 'fp_jobs.city_id')
                  ->join('fp_countries', 'fp_countries.id', '=', 'fp_jobs.country_id')
@@ -116,7 +118,7 @@ class JobController extends Controller
                  ->where('fp_jobs.status', '!=', 3)
                  ->where('fp_job_requests.status', '=', 0)
                  ->get();
-              print_r($jobs);exit;
+             
 		
 		return view("client/client_job_request",compact('jobs','pageTitle','user'));
         

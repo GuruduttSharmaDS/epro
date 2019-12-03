@@ -1,4 +1,4 @@
-@extends('client.layouts.client_dashboard_layout')
+@extends('frontend.layouts.user_dashboard_layout')
 
 @section('title', 'FreelanceEP')
 @section('body')
@@ -9,7 +9,7 @@
 			<div class="search_main">
 				<div class="container">
 					<div class="row">
-						 @include("client.layouts.client_dashboard_sidebar")
+					@include("frontend.layouts.user_dashboard_sidebar")
 						 <div class="col-12 col-md-8 col-lg-8 col-sm-7">
 							<div class="hire_companies work_history current_task">
 								<h2><span><i class="flaticon-task-complete black"></i></span>Job Request</h2>
