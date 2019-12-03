@@ -18,21 +18,21 @@
           <tbody>
             <tr>
               <td colspan="2" style="padding: 5px 15px 20px 15px;" align="left">
-                <h2 style="font-size: 15px;color: #153654; text-align: justify;">Reset Your FREELANCEP account password!</h2>
+                <h2 style="font-size: 15px;color: #153654; text-align: justify;">Please verify your email address!</h2>
                 <p style="font-size: 11px;text-align: justify;">Please click on 
-                  reset password to reset FREELANCEP account password registration</p>
+                  Verify Email to verify your email on FREELANCEP.</p>
               </td>
             </tr>
             <tr>
               <td style="padding:10px 5px 10px 5px" align="center">
                 <div style="width: 220px; min-height: 38px; border-radius: 3px; background: transparent linear-gradient(to bottom, rgb(21, 54, 84) 0%, rgb(25, 70, 111) 100%) repeat scroll 0% 0%">
-                    <a href="{{$url}}" style="display:block;width:215px;min-height:38px;text-align:center;font-size:17px;font-weight:bold;text-decoration:none;line-height:38px" target="_blank">Reset Password</a>
+                    <a href="{{$url}}" style="display:block;width:215px;min-height:38px;text-align:center;font-size:17px;font-weight:bold;text-decoration:none;line-height:38px" target="_blank">Verify Email</a>
                 </div>
               </td>
             </tr>
 			<tr>
               <td>
-                <p style="font-size: 11px; text-align: right;"><em>-FREELANCEP Team</em></p>
+                <p style="font-size: 11px; text-align: right;"><em> - FREELANCEP Team</em></p>
               </td>
             </tr>
           </tbody>
@@ -46,7 +46,7 @@
           <tbody>
             <tr>
               <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; line-height: 1.4; font-weight: 300; text-align: center; font-size: 12px; color: #464646" align="center">
-                  Reply to this email will not be read. If you need to contact us please see how to do so <a href="/" target="_blank" style="color: #125b9c;text-decoration: none;"><b>here|</b></a>.
+                  Reply to this email will not be read. If you need to contact us please see how to do so <a href="{{ route('home') }}" target="_blank" style="color: #125b9c;text-decoration: none;"><b>here |</b></a>.
               </td>
             </tr>
           </tbody>

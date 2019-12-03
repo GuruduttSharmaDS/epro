@@ -74,6 +74,7 @@ class DashboardController extends Controller
 	$user = Client::with([])
        ->where('id', '=', $user_id)
        ->first();
+       
 	if ($request->isMethod('post')){
 		Session::forget('msg');
 		Session::forget('errormsg');

@@ -208,7 +208,12 @@ class HomeController extends Controller
               ->where('email', '=', $email)
               ->where('status', '=', '0')
               ->first();
-     
+
+     if (!empty ($count)) {
+      $match = array('email' => $email, 'status' => 0);
+      $isInsert = DB ::table('fp_auths')->updateOrInsert($match,['email_verified_at'=>date('Y-m-d H:i:s')]);
+     }
+
      return view("verify_email",compact('count'));
    }
 }

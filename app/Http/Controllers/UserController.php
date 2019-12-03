@@ -190,39 +190,47 @@ public function save_user_data(Request $request){
        ->where('id', '=', $user_id)
        ->first();
 	if ($request->isMethod('post')){
+        
+
 		Session::forget('msg');
 	    Session::forget('errormsg');
+        
         $validationOn =  array(
-				"old_password"=>$request->old_password,
-                "new_password"=>$request->new_password,
-                "confirm_password"=>$request->confirm_password,
-            );
-			$validateRule=  array(
-                "old_password"=>"required",
-                'new_password' => 'min:6|required_with:confirm_password|same:confirm_password',
-                'confirm_password' => 'min:6',
-            );
+            "old_password"=>$request->old_password,
+            "new_password"=>$request->new_password,
+            "confirm_password"=>$request->confirm_password,
+        );
+
+        $validateRule=  array(
+            "old_password"=>"required",
+            'new_password' => 'min:6|required_with:confirm_password|same:confirm_password',
+            'confirm_password' => 'min:6',
+        );
 			 
         $validator = Validator::make($validationOn,$validateRule);
+
         if ($validator->fails()){
-            return redirect("/user-dashboard/change-password")->withErrors($validator)->withInput();
-  
+            return redirect("/user-dashboard/change-password")->withErrors($validator)->withInput();  
         }
-		 $isExist = DB::select("SELECT * FROM fp_auths WHERE status != 2 AND (role = 'user' or role = 'client') AND role_id = '".$user_id."' limit 0, 1");
-		
-		if(!empty($isExist)){
-			if(Hash::check($request->old_password,$isExist[0]->password)){
-				DB::table('fp_auths') ->where('role_id', $user_id) ->limit(1) ->update( ['password'=>bcrypt($request->new_password), 'updated_at'=>date('Y-m-d H:i:s') ]);
+        
+        $isExist = DB::select("SELECT * FROM fp_auths WHERE status != 2 AND (role = 'user' or role = 'client') AND role_id = '".$user_id."' limit 0, 1");
+               
+		if (!empty($isExist)) {
+			if(Hash::check($request->old_password,$isExist[0]->password)) {
+                DB::table('fp_auths') 
+                ->where('role_id', $user_id)
+                ->limit(1) 
+                ->update(['password'=>bcrypt($request->new_password), 'updated_at'=>date('Y-m-d H:i:s')]);
+
 				$request->session()->flash("msg", "Password updated successfully.");
-			}else{
-			
-				$request->session()->flash("error_msg", "invalid old password.");
+			} else {			
+				$request->session()->flash("errormsg", "invalid old password.");
 			}
-		}else{
-			 $request->session()->flash("error_msg", "invalid user.");
+		} else {
+			$request->session()->flash("errormsg", "invalid user.");
 		}
 		
-	}		
+    }		
 	return view("change_password",compact('user','pageTitle'));
   }
    public function ajaxImage(Request $request)

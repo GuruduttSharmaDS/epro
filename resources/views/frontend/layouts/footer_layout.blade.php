@@ -208,12 +208,12 @@
                     <div class="form-group">
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="role" value="2" checked>Freelancer
+                            <input type="radio" class="form-check-input" name="role" value="user" checked>Freelancer
                           </label>
                         </div>
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="role" value="3">Client
+                            <input type="radio" class="form-check-input" name="role" value="client">Client
                           </label>
                         </div>
                     </div>

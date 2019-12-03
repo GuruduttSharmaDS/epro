@@ -50,10 +50,10 @@ class CommonController extends Controller
 
   public function registerationEmail ($userId, $data) {
     $isExist = [];
-    if($data->role == 2) {
+    if($data->role == 'user') {
       $emailTemplates = 'email_templates.freelancer_registeration';
       $isExist = DB::select("SELECT * FROM fp_users WHERE status != 2 AND id = '".$userId."' ",[1]);
-    } else if($data->role == 3) {
+    } else if($data->role == 'client') {
       $emailTemplates = 'email_templates.client_registeration';
       $isExist = DB::select("SELECT * FROM fp_clients WHERE status != 2 AND id = '".$userId."' ",[1]);
     }
@@ -76,7 +76,7 @@ class CommonController extends Controller
   // User Signup
   public function registration_Form($data) {
     $response = array ('valid' => false, 'msg'=>'Invalid Request');  
-    
+
     $id = 0;
     if ($data->has('password')) {
       try {
@@ -87,7 +87,7 @@ class CommonController extends Controller
         if (empty($isExist)) {
           $common_lib = new Common_helper();
           
-          if($data->role == 2) {
+          if($data->role == 'user') {
             $slug = $common_lib->createSlug($data->firstname,$id,'fp_users');
 
             $userdata = array (
@@ -98,7 +98,7 @@ class CommonController extends Controller
             );
             $id = DB::table('fp_users')->insertGetId($userdata);
 
-          } else if ($data->role == 3) {            
+          } else if ($data->role == 'client') {            
             $slug = $common_lib->createSlug($data->firstname,$id,'fp_clients');
 
             $clientData = array (
@@ -118,11 +118,14 @@ class CommonController extends Controller
 
             if ($this-> registerationEmail($id,$data)) {
               DB::commit();
+            } else {
+              DB::rollback();
+              $response['msg'] = 'Error, Error in sending verification email.';
             }
+            
+            // Session::put(['email'=>$data->email,'roleId'=>$id,'role'=>$data->role,'first_name'=>$data->firstname,'last_name'=>$data->lastname]);
 
-            Session::put(['email'=>$data->email,'roleId'=>$id,'role'=>$data->role,'first_name'=>$data->firstname,'last_name'=>$data->lastname]);
-
-            $response = array('valid' => true, 'msg' => 'You are registered succesfully. Your account is all set.','role'=>$data->role, 'first_name'=>$data->firstname, 'lastname'=>$data->lastname, 'mobile'=>'');
+            $response = array('valid' => true, 'msg' => 'You are registered succesfully. Your account is all set.');
           } else {
             $response['msg'] = 'Something went wrong.';
           }           
@@ -145,9 +148,9 @@ class CommonController extends Controller
 
       $isExist = DB::select("SELECT * FROM fp_auths WHERE status != 2 AND (role = 'user' or role = 'client') AND email = '".$data->username."' limit 0, 1");
 
-      
-
-      if(isset($isExist[0]->password)){
+      if (!isset ($isExist[0]->email_verified_at) && isset($isExist[0]->password)) {
+        $response['msg'] = 'Sorry! This email is not verified.';
+      }  else if (isset($isExist[0]->password)){
         if(Hash::check($data->password,$isExist[0]->password)){
           if($isExist[0]->status == 0){
             $userData = '';
@@ -175,10 +178,10 @@ class CommonController extends Controller
     return $response;
   }
 
-  public function forgot_Form($data)
-  {
+  public function forgot_Form($data) {
     $response = array('valid' => false, 'data'=>'Invalid Request');
-    if($data->has('email')){
+    
+    if($data->has('email')) {
        $isExist = DB::select("SELECT * FROM fp_auths WHERE email = '".$data->email."'",[1]);
        if (!empty($isExist[0])) {
               if ($isExist[0]->email == $data->email) {
@@ -193,7 +196,7 @@ class CommonController extends Controller
                       $emailId = '';
                       $user = $isExist[0]; 
                        Mail::send('email_templates.forgot_password', ['url'=>asset('/set-new-password').'/'.$code], function ($m) use ($user) {
-                          $m->to($user->email, 'User')->subject('Password reset!');
+                          $m->to($user->email, 'User')->from('vivek@thedreamsteps.com', 'FreelanceEP')->subject('Password reset!');
                       });
                   }
                   $response = array('valid' => true, 'data'=>'Password reset link has been sent to your email');
@@ -203,6 +206,8 @@ class CommonController extends Controller
               }
               else
                 $response['data'] = 'Sorry! Your profile is inactive, Please Contact to admin';
+       } else {
+        $response['data'] = 'Sorry! This email is not registered with us.';
        }         
     }  
     return $response;
