@@ -40,13 +40,13 @@ class DashboardController extends Controller
 		return view("client/client_dashboard",compact('pageTitle','user','totalRating','JobDone','totalRating','totalProfileView','reviews','HireComapny'));
   	}
   	public function profile(){
-   		$statisticsData = DB::select('SELECT count(*) as totalJobs, (SELECT count(*) as pendingBids from fp_job_bids where status = 0 AND fp_jobs.id = job_id) as pendingBids from fp_jobs where fp_jobs.status < 3 group by id');
+   		// $statisticsData = DB::select('SELECT count(*) as totalJobs, (SELECT count(*) as pendingBids from fp_job_bids where status = 0 AND fp_jobs.id = job_id) as pendingBids from fp_jobs where fp_jobs.status < 3 group by id');
 		$pageTitle = "Profile";
 		$user_id = session::get('roleId');
 		$user = Client::with([])
 		->where('id', '=', $user_id)
 		->first();
-        return view("client/client_profile",compact('statisticsData','pageTitle','user'));
+        return view("client/client_profile",compact('pageTitle','user'));
   	}
 	
 	public function edit_profile(){

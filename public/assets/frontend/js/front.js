@@ -97,22 +97,26 @@ function forgot_password_email(obj,e){
   });
 }
 
-function registration(obj,e){
+// User Registration
+function registration(obj,e) {
   debugger;
   e.preventDefault();
-  if(!$('#agree').is(':checked')){
+
+  if (!$('#agree').is(':checked')) {
     $(obj).find('.msg').html(getMsg('Please agree with our terms and conditions.',2)).css('display','block');
     $(obj).find('.validate-password').html(btntext);
     return false;
   }
 
   $(obj).find('.msg').html('').css('display','none');
-  var role =  $(obj).find('input[name=role]:checked').val();
-  var action =  $(obj).find('input[name=action]').val();
+  
+  var role      = $(obj).find('input[name=role]:checked').val();
+  var action    = $(obj).find('input[name=action]').val();
   var firstname = $(obj).find('input[name=fname]').val();
-  var lastname = $(obj).find('input[name=lname]').val();
-  var email = $(obj).find('input[name=email]').val();
-  var password = $(obj).find('input[name=pswd]').val();
+  var lastname  = $(obj).find('input[name=lname]').val();
+  var email     = $(obj).find('input[name=email]').val();
+  var password  = $(obj).find('input[name=pswd]').val();
+
   $.ajax({
     url: COMMONURL,
     type:'POST',

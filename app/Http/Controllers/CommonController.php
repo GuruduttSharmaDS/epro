@@ -47,41 +47,88 @@ class CommonController extends Controller
     return response()->json($return);
 
   }
-  public function registration_Form($data){
-    $response = array('valid' => false, 'msg'=>'Invalid Request');  
-    $id = 0;
-    if($data->has('password')){
-      try{
 
+  public function registerationEmail ($userId, $data) {
+    $isExist = [];
+    if($data->role == 2) {
+      $emailTemplates = 'email_templates.freelancer_registeration';
+      $isExist = DB::select("SELECT * FROM fp_users WHERE status != 2 AND id = '".$userId."' ",[1]);
+    } else if($data->role == 3) {
+      $emailTemplates = 'email_templates.client_registeration';
+      $isExist = DB::select("SELECT * FROM fp_clients WHERE status != 2 AND id = '".$userId."' ",[1]);
+    }
+
+    if (!empty($isExist)) {
+      $user = $isExist[0]; 
+      // set-new-password
+      $token = base64_encode ($data->email);
+
+      Mail::send($emailTemplates, ['url'=>asset('/verify-email').'/'.$token], function ($m) use ($user) {
+        $m->to($user->email, 'User')->from('vivek@thedreamsteps.com', 'FreelanceEP')->subject('Verify Email!');
+      });
+
+      return true;
+    }  
+
+    return false;
+  }
+
+  // User Signup
+  public function registration_Form($data) {
+    $response = array ('valid' => false, 'msg'=>'Invalid Request');  
+    
+    $id = 0;
+    if ($data->has('password')) {
+      try {
+        
         DB::beginTransaction();
         $isExist = DB::select("SELECT * FROM fp_auths WHERE status != 2 AND email = '".$data->email."' ",[1]);
-        if(empty($isExist)){
+        
+        if (empty($isExist)) {
           $common_lib = new Common_helper();
-          if($data->role == 'user'){
+          
+          if($data->role == 2) {
             $slug = $common_lib->createSlug($data->firstname,$id,'fp_users');
 
-            $userdata = array('first_name' => $data->firstname, 'last_name'=>$data->lastname, 'email' => $data->email, 'slug' => $slug);
+            $userdata = array (
+              'first_name' => $data->firstname, 
+              'last_name'=>$data->lastname, 
+              'email' => $data->email, 
+              'slug' => $slug
+            );
             $id = DB::table('fp_users')->insertGetId($userdata);
-          }else if($data->role == 'client'){
-            
+
+          } else if ($data->role == 3) {            
             $slug = $common_lib->createSlug($data->firstname,$id,'fp_clients');
-            $id = DB::table('fp_clients')->insertGetId(array('first_name' => $data->firstname, 'last_name'=>$data->lastname, 'email' => $data->email, 'slug' => $slug));
+
+            $clientData = array (
+              'first_name' => $data->firstname, 
+              'last_name'  => $data->lastname, 
+              'email'      => $data->email, 
+              'slug' => $slug
+            );
+
+            $id   = DB::table('fp_clients')->insertGetId($clientData);
           }
-          if($id > 0){
+
+          if($id > 0) {
 
             $userauthdata = array('role'=>$data->role,'role_id'=>$id,'email'=>$data->email,'password'=>bcrypt($data->password),'created_at'=>date('Y-m-d H:i:s'));
             $success= DB::table('fp_auths')->insert($userauthdata);
 
-            DB::commit();
+            if ($this-> registerationEmail($id,$data)) {
+              DB::commit();
+            }
+
             Session::put(['email'=>$data->email,'roleId'=>$id,'role'=>$data->role,'first_name'=>$data->firstname,'last_name'=>$data->lastname]);
 
             $response = array('valid' => true, 'msg' => 'You are registered succesfully. Your account is all set.','role'=>$data->role, 'first_name'=>$data->firstname, 'lastname'=>$data->lastname, 'mobile'=>'');
-          }else
+          } else {
             $response['msg'] = 'Something went wrong.';
-
-        }else
+          }           
+        } else {
           $response['msg'] = 'This email is already in use, Please try with another email Id.';
-        
+        }          
       } 
       catch (\Exception $e) {
         DB::rollback();
@@ -98,10 +145,13 @@ class CommonController extends Controller
 
       $isExist = DB::select("SELECT * FROM fp_auths WHERE status != 2 AND (role = 'user' or role = 'client') AND email = '".$data->username."' limit 0, 1");
 
+      
+
       if(isset($isExist[0]->password)){
         if(Hash::check($data->password,$isExist[0]->password)){
           if($isExist[0]->status == 0){
             $userData = '';
+
             if($isExist[0]->role == 'user'){
                 $userData = DB::select("SELECT * FROM fp_users WHERE status != 2 AND id = '".$isExist[0]->role_id."' limit 0, 1");
             }else if($isExist[0]->role == 'client'){

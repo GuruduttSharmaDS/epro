@@ -168,6 +168,7 @@
             });
 </script>
 
+
 <!-- The Register Modal -->
 <div class="modal" id="login_regis">
     <div class="modal-dialog  modal-dialog-centered ">
@@ -207,24 +208,24 @@
                     <div class="form-group">
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="role" value="user" checked>Freelancer
+                            <input type="radio" class="form-check-input" name="role" value="2" checked>Freelancer
                           </label>
                         </div>
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="role" value="client">Client
+                            <input type="radio" class="form-check-input" name="role" value="3">Client
                           </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="uname">FirstName:</label>
+                        <label for="uname">First Name:</label>
                         <input type="text" class="form-control" id="fname"  name="fname" required>
                         <span class="text-danger">{{ $errors->first('fname') }}</span>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <div class="form-group">
-                        <label for="uname">LastName:</label>
+                        <label for="uname">Last Name:</label>
                         <input type="text" class="form-control" id="lname"  name="lname" required>
                         <span class="text-danger">{{ $errors->first('lname') }}</span>
                         <div class="valid-feedback">Valid.</div>
@@ -264,7 +265,7 @@
 
                     <div class="form-group msg">
                     </div>
-                    <h3>Already Registered? <a href="javascript:"  data-toggle="modal" data-target="#login_signin" data-dismiss="modal">Login Now</a></h3>
+                    <h5>Already Registered? <a href="javascript:void(0)"  data-toggle="modal" data-target="#login_signin" data-dismiss="modal">Login Now</a></h5> 
                 </form>
             </div> 
         </div>
@@ -286,8 +287,8 @@
             <div class="modal-body">
                 <div class="via_social">
                     <ul>
-                        <li><a href="#"><i class="fab fa-facebook-square"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-google-plus-square"></i>Google Plus</a></li>
+                        <li><a href="javascript:void(0)"><i class="fab fa-facebook-square"></i> Facebook</a></li>
+                        <li><a href="javascript:void(0)"><i class="fab fa-google-plus-square"></i> Google Plus</a></li>
                     </ul>
                 </div>
                 <div class="or">

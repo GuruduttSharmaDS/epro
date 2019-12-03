@@ -1,11 +1,13 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-light">
+
         <div class="toggle_logo">
-            <a class="navbar-brand" href="#"><img src="{!! asset('assets/frontend/img/logo.') !!}png"></a>
+            <a class="navbar-brand" href="{{ route('home') }}"><img src="{!! asset('assets/frontend/img/logo.') !!}png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
+        
         <div class="call_service">
             <h3><span>
                 <!-- <img src="{!! asset('assets/frontend/img/call.') !!}png" alt="call service"> --> <i class="far fa-clock"></i></span>On-Call Service 24/7</h3>
@@ -15,22 +17,22 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('home')}}">Home</a>
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('about-us')}}">About us</a>
+                        <a class="nav-link" href="{{ route('about-us') }}">About us</a>
                     </li>
                     <!--<li class="nav-item">
                         <a class="nav-link" href="#">Events Security</a>
                     </li> -->   
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('security-service')}}">Security Services</a>
+                        <a class="nav-link" href="{{ route('security-service') }}">Security Services</a>
                     </li>    
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('faq')}}">Faq</a>
+                        <a class="nav-link" href="{{ route('faq') }}">Faq</a>
                     </li>    
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('contact-us')}}">Contact Us</a>
+                        <a class="nav-link" href="{{ route('contact-us') }}">Contact Us</a>
                     </li>
                     </ul>
                    </div>

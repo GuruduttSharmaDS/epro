@@ -186,6 +186,7 @@ class HomeController extends Controller
   public function dashboard(){
   	return view("dashboard");
   }
+  
   public function forgotpassword(Request $request){
    $token = $request->token;
    $count = DB::table("fp_validcoupon")
@@ -198,4 +199,16 @@ class HomeController extends Controller
   	exit();*/
   	return view("newpassword",compact('count'));
   }
+
+  public function verifyEmail(Request $request){
+    $token = $request->token;
+    $email = base64_decode ($token);
+
+    $count = DB::table("fp_auths")
+              ->where('email', '=', $email)
+              ->where('status', '=', '0')
+              ->first();
+     
+     return view("verify_email",compact('count'));
+   }
 }

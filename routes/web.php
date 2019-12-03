@@ -68,6 +68,7 @@ Route::get('/search-result','HomeController@searchResult')->name("search-result"
 Route::post('common/search_gaurd', 'CommonController@search_gaurd');
 //Route::get('/user-dashboard','HomeController@dashboard')->name("user-dashboard");
 Route::get('/set-new-password/{token}','HomeController@forgotpassword')->name("set-new-password");
+Route::get('/verify-email/{token}','HomeController@verifyEmail')->name("verify-email");
 Route::get('/about-us',"HomeController@about_us")->name("about-us");
 Route::match(['get', 'post'], 'contact-us',"HomeController@contact_us")->name("contact-us");
 Route::get('/faq',"HomeController@faq")->name("faq");
