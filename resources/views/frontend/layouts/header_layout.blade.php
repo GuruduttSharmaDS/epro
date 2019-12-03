@@ -26,7 +26,8 @@
                         <a class="nav-link" href="#">Events Security</a>
                     </li> -->   
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('security-service') }}">Security Services</a>
+                        <!-- <a class="nav-link" href="{{ route('security-service') }}">Security Services</a> -->
+                        <a class="nav-link" href="javascript:void(0)">Security Services</a>
                     </li>    
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('faq') }}">Faq</a>
@@ -54,7 +55,7 @@
                     <div class="login_action">
                       <ul> 
                    
-                        <li class="register {{ ( !empty(Session::get('roleId'))?'hide':'')}}"><a href="javascript:" data-toggle="modal" data-target="#login_signin">Log in / Register</a></li></ul>
+                        <li class="register {{ ( !empty(Session::get('roleId'))?'hide':'')}}"><a href="javascript:void(0)" data-toggle="modal" data-target="#login_signin">Log in / Register</a></li></ul>
                       </div>
 
 

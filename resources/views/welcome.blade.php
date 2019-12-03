@@ -23,7 +23,8 @@
                     </div>
 
                     <div class="keyword_location">
-                        <form action="{{route('search-result')}}" method="GET">
+                        <!-- <form action="{{route('search-result')}}" method="GET"> -->
+                        <form action="" method="GET">
                             <span class="locate"><i class="fas fa-map-marker-alt"></i></span>
                             <input type="text" placeholder="Find location">
                             <input type="text" placeholder="Type your Keyword...">
@@ -72,6 +73,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="start_as">
     <div class="container-fluid">
         <div class="row mx-0">
@@ -85,14 +88,14 @@
                 <h3>Start As Client</h3>
                 <p>Consectetur adipisicing elitaed eiusmod tempor incididuatna labore et dolore magna.Consectetur adipisicing elitaed eiusmod </p>
                 
-                <a href="#">Join Now</a>
+                <a href="javascript:void(0)" class="homeJoinNow" data-toggle="modal" data-target="#login_regis" data-id="client">Join Now</a>
             </div>
                 </div>
             <div class="col-md-4 px-0">
                 <div class="as_f_lancer">
                     <h3>Start As Freelancer</h3>
                     <p>Consectetur adipisicing elitaed eiusmod tempor incididuatna labore et dolore magna.Consectetur adipisicing elitaed eiusmod.</p>
-                    <a href="#">Join Now</a>
+                    <a href="javascript:void(0)" class="homeJoinNow" data-toggle="modal" data-target="#login_regis" data-id="cliuserent">Join Now</a>
                 </div>
             </div>
             <div class="col-md-2 px-0">
@@ -103,6 +106,7 @@
         </div>
     </div>
 </div>
+
 <div class="how_it_works">
     <div class="container">
         <div class="row">  
@@ -146,7 +150,7 @@
         <div class="row">  
             <div class="col-12">
                 <h2>Highest Rated Freelancers</h2>
-                <p>The Love Boat promises something for the beat every of just one drum. <a href="{{route('search-result')}}">View All Guards <span></span></a></p>
+                <p>The Love Boat promises something for the beat every of just one drum. <a href="javascript:void(0);">View All Guards</a></p>
                 <div class="highrate slider">
 
                         @foreach ($users as $user)

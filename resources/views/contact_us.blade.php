@@ -42,15 +42,18 @@
                                         <div class="md-form">
                                             <input type="text" id="name" name="name" class="form-control" placeholder="Name">
                                             <label for="name" class="l_icons"><i class="far fa-user"></i></label>
-											{!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                         </div>
+                                        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+                                        <br>
+
                                     </div>
 									<div class="col-md-6">
                                         <div class="md-form">
                                             <input type="text" id="contactemail" name="contactemail" class="form-control" placeholder="Your Email">
                                             <label for="contactemail" class="l_icons"><i class="far fa-envelope"></i></label>
-											{!! $errors->first('contactemail', '<p class="help-block">:message</p>') !!}
 										</div>
+                                        {!! $errors->first('contactemail', '<p class="help-block">:message</p>') !!}
+                                        <br>
                                     </div>
                                     <!--Grid column-->
 
@@ -70,12 +73,13 @@
                                 <div class="row">
                                     <!--Grid column-->
                                     
-									  <div class="col-md-8">
+									  <div class="col-md-12">
                                         <div class="md-form">
                                             <input type="text" id="subject" name="subject" class="form-control" placeholder="Your subject">
-                                            
-											{!! $errors->first('subject', '<p class="help-block">:message</p>') !!}
+                                            <label for="contactemail" class="l_icons"><i class="far fa-eye"></i></label>
+											
 										</div>
+                                        {!! $errors->first('subject', '<p class="help-block">:message</p>') !!}                                        <br>
                                     </div>
                                     <!--Grid column-->
 
@@ -90,8 +94,9 @@
 
                                         <div class="md-form">
                                             <textarea type="text" id="message" name="message" rows="7" class="form-control md-textarea" placeholder="Your Message"></textarea>                      
-											{!! $errors->first('message', '<p class="help-block">:message</p>') !!}
 										</div>
+                                        {!! $errors->first('message', '<p class="help-block">:message</p>') !!}
+
 
                                     </div>
                                 </div>
@@ -119,10 +124,10 @@
                                 <li>
                                     <h3>Get Social:</h3>
                                     <h4>
-                                        <a href="" class="social fb"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="" class="social tw"><i class="fab fa-twitter"></i></a>
-                                        <a href="" class="social ld"><i class="fab fa-linkedin"></i></a>
-                                        <a href="" class="social gp"><i class="fab fa-google-plus-g"></i></a>
+                                        <a href="javascript:void(0);" class="social fb"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="javascript:void(0);" class="social tw"><i class="fab fa-twitter"></i></a>
+                                        <a href="javascript:void(0);" class="social ld"><i class="fab fa-linkedin"></i></a>
+                                        <a href="javascript:void(0);" class="social gp"><i class="fab fa-google-plus-g"></i></a>
                                     </h4>
                                 </li>
                             </ul>
