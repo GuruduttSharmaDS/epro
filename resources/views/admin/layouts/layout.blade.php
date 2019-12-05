@@ -1,11 +1,10 @@
 <!doctype html>
 <html class="no-js" lang="en">
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Market Place - @yield('title')</title>
- 
+
         {{-- include styles --}}
         @include("admin.layouts.header_script")
 
@@ -29,9 +28,7 @@
             @include("admin.layouts.sidebar")
 
             {{-- include header --}}
-            @include("admin.layouts.header")
-           
-            
+            @include("admin.layouts.header")          
 
             {{-- dynamic content --}}
             @section("content")
@@ -40,7 +37,6 @@
             {{-- include footer --}}
             @include("admin.layouts.footer")
 
-            
             {{-- dynamic content --}}
             @section("footer-page-script")
             @show

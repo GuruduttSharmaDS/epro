@@ -19,98 +19,99 @@
     <script src="{!! asset('assets/js/vendor/modernizr-2.8.3.min.js') !!}"></script>
 @endsection
 
-@section("content")            <!-- page title area start -->
-            <div class="page-title-area">
-                <div class="row align-items-center">
-                    <div class="col-sm-12">
-                        <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Dashboard</h4>
-                            <ul class="breadcrumbs pull-left">
-                                <li><a href="{{ route('dashboard') }}">Home</a></li>
-                                <li><span>Categories</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- page title area end -->
-            <div class="main-content-inner">
-                <div class="row">
+@section("content")      
 
-                    <!-- Server side start -->
-                    <div class="col-4">
-                        <div class="card mt-5">
-                            <div class="card-body">
-                                <h4 class="header-title"><span>Add New</span> Category</h4>
-                                <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{route('savecategory')}}">
-                                    <div class="form-row">
-                                        @if(session("msg"))
-                                        <div class="alert-dismiss">
-                                            <div class="alert alert-success alert-dismissible fade show">
-                                                <span>{{session("msg")}}</span><button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span class="fa fa-times"></span> </button><br/>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        @if(count($errors)>0)
-                                        <div class="alert-dismiss">
-                                            <div class="alert alert-danger alert-dismissible fade show">
-                                                @foreach($errors->all()  as $error)
-                                                    <span>{{$error}}</span><br/>
-                                                @endforeach
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span class="fa fa-times"></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        <input type="hidden" name="hiddenval" class="hiddenval" value="0">
-                                        {!!csrf_field()!!}
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="category">Category name</label>
-                                            <input type="text" class="form-control" id="cat_name" name="category_name" placeholder="Enter category" value="" required="">
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please provide a valid category.
-                                            </div>
-                                        </div>                                        
-                                    </div>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Server side end -->
-                    <!-- Dark table start -->
-                    <div class="col-8 mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title">Categories</h4>
-                                <div class="data-tables datatable-dark">
-                                    <table id="my-dataTable" class="text-center">
-                                        <thead class="text-capitalize">
-                                            <tr>
-                                                <th>Category</th>
-                                                <th>Create Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                                                        
-                                        </tbody>
-                                    </table>
+<!-- page title area start -->
+<div class="page-title-area">
+    <div class="row align-items-center">
+        <div class="col-sm-12">
+            <div class="breadcrumbs-area clearfix">
+                <ul class="breadcrumbs pull-left">
+                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li><span>Countries</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- page title area end -->
+<div class="main-content-inner">
+    <div class="row">
+        <!-- Server side start -->
+        <div class="col-4">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="header-title"><span>Add New</span> Category</h4>
+                    <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{route('savecategory')}}">
+                        <div class="form-row">
+                            @if(session("msg"))
+                            <div class="alert-dismiss">
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    <span>{{session("msg")}}</span><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span class="fa fa-times"></span> </button><br/>
                                 </div>
                             </div>
+                            @endif
+                            @if(count($errors)>0)
+                            <div class="alert-dismiss">
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    @foreach($errors->all()  as $error)
+                                        <span>{{$error}}</span><br/>
+                                    @endforeach
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            @endif
+                            <input type="hidden" name="hiddenval" class="hiddenval" value="0">
+                            {!!csrf_field()!!}
                         </div>
-                    </div>
-                    <!-- Dark table end -->
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="category">Category name</label>
+                                <input type="text" class="form-control" id="cat_name" name="category_name" placeholder="Enter category" value="" required="">
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid category.
+                                </div>
+                            </div>                                        
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
                 </div>
             </div>
+        </div>
+        <!-- Server side end -->
+        <!-- Dark table start -->
+        <div class="col-8 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Categories</h4>
+                    <div class="data-tables datatable-dark">
+                        <table id="my-dataTable" class="text-center">
+                            <thead class="text-capitalize">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Create Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>
 
 @endsection
 

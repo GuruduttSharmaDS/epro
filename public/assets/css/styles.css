@@ -53,6 +53,9 @@
 
 
 /*------------------------- 1. Core Css -------------------*/
+.breadcrumbs-area {
+    padding: 10px !important;
+}
 
 .page-container {
     width: 100%;

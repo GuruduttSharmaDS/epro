@@ -49,6 +49,11 @@ Route::group([ "middleware" => "dashboard"], function(){
 	Route::get("/dashboard/query_list", "admin\QueryController@index")->name("listquery");
 
 	Route::get("/dashboard/query_data", "admin\QueryController@queryData")->name("querydata");
+
+	Route::get("/dashboard/countries", "admin\CountryController@index")->name("countries");
+	Route::get("/dashboard/countriesListing", "admin\CountryController@countriesListing")->name("countriesListing");
+	Route::post("/dashboard/saveCountry", "admin\CountryController@save")->name("saveCountry");
+	Route::post("/dashboard/deletename", "admin\CountryController@delete")->name("deletename");
 });
 
 // Route::get('/dashboard/updateUrl', 'admin\UpdateController@ajaxRequest');
