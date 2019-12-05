@@ -315,6 +315,12 @@
 						$("#is_online").val('0');
 					}
 				});
+				$(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+  if(e.keyCode == 13) {
+    e.preventDefault();
+    return false;
+  }
+});
 
 			</script>
 
