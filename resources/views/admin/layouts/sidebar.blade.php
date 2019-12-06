@@ -47,6 +47,12 @@
                     <li>
                         <a href="{{ route('countries') }}"> <i class="ti-email"></i> <span> Manage Country </span></a>
                     </li> 
+                    <li>
+                        <a href="{{ route('state') }}"> <i class="ti-email"></i> <span> Manage State </span></a>
+                    </li>
+                    <li>
+                        <a href="{{ route('cities') }}"> <i class="ti-email"></i> <span> Manage City </span></a>
+                    </li>
                 </ul>
             </nav>
         </div>

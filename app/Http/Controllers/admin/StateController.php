@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Models\Country;
+use App\Models\State;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Datatables;
 use DB;
 
-class CountryController extends Controller
+class StateController extends Controller
 {
-    public function index(){
-        return view("admin.country");
+    public function index() {
+        return view("admin.state");
     }
 
-    public function countriesListing(){
-        $queryData  = DB::table("fp_countries")->where('status', '<>', 2)->get();
+    public function stateListing() {
+        $countryId = isset ($_GET['country_id']) ? $_GET['country_id']: 0;
+        $queryData  = DB::table("fp_states")->where('status', '<>', 2)->where('country_id', $countryId)->get();
 
         return Datatables::of($queryData)->editColumn("status", function($queryData) {
             return ($queryData->status) ? 'Deactive':'Active';
@@ -33,29 +34,32 @@ class CountryController extends Controller
         
         $validator = Validator::make(
             array(
-                "name"=>$request->name
+                "name"=>$request->name,
+                "country_id"=>$request->country_id
             ),
             array(
-                "name"=>"required".(($id > 0)?'':"|unique:fp_countries")
+                "name"=>"required".(($id > 0)?'':"|unique:fp_states")
             )
         );
 
         if ($validator->fails())
-            return redirect("/dashboard/countries")->withErrors($validator)->withInput();
+            return redirect("/dashboard/state")->withErrors($validator)->withInput();
         
         if ($id > 0) {
-            $items = Country::find($id);
+            $items = State::find($id);
             $action = "updated";
         }
         else {
-            $items = new Country;
+            $items = new State;
             $action = "created";
         }
 
         $items->name = $request->name;
+        $items->country_id = $request->country_id;
+        // echo "<pre>"; print_r($items);die;
         $items->save();
-        $request->session()->flash("msg", "Country has been $action successfully.");
-        return redirect("/dashboard/countries");
+        $request->session()->flash("msg", "State has been $action successfully.");
+        return redirect("/dashboard/state");
         
     }
 
@@ -63,30 +67,27 @@ class CountryController extends Controller
 
         $id = $request->hiddenval;
 
-        $queryData = Country::find($id);
+        $queryData = State::find($id);
 
         if (isset($queryData->id)) {
           
             $queryData->delete();
 
-            echo json_encode(array("status" => 1, "message" => "Country deleted successfully"));
+            echo json_encode(array("status" => 1, "message" => "State deleted successfully"));
         } else {
-            echo json_encode(array("status" => 0, "message" => "Country does not exists"));
+            echo json_encode(array("status" => 0, "message" => "State does not exists"));
         }
 
         die();
     }
 
-    public function countriesDropdown (Request $request) {
-        $queryData  = DB::table("fp_countries")->where('status', '<>', 2)->orderBy('name',"ASC")->get(['id', 'name']);
+    public function stateDropdown (Request $request) {
+        $countryId = isset ($_GET['country_id']) ? $_GET['country_id']: 0;
+        $queryData  = DB::table("fp_states")->where('status', '<>', 2)->where('country_id', $countryId)->orderBy('name',"ASC")->get(['id', 'name']);
 
         if (!empty ($queryData)) {
             foreach ($queryData as $info) {
-                // echo $info->name;die;
-                if ($info->id == 233)
-                    echo "<option value='$info->id' selected>$info->name</option>";
-                else 
-                    echo "<option value='$info->id'>$info->name</option>";
+                echo "<option value='$info->id'>$info->name</option>";
             }
         }
         die;

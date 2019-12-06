@@ -54,6 +54,19 @@ Route::group([ "middleware" => "dashboard"], function(){
 	Route::get("/dashboard/countriesListing", "admin\CountryController@countriesListing")->name("countriesListing");
 	Route::post("/dashboard/saveCountry", "admin\CountryController@save")->name("saveCountry");
 	Route::post("/dashboard/deletename", "admin\CountryController@delete")->name("deletename");
+	Route::get("/dashboard/countriesDropdown", "admin\CountryController@countriesDropdown")->name("countriesDropdown");
+
+	Route::get("/dashboard/state", "admin\StateController@index")->name("state");
+	Route::get("/dashboard/stateListing", "admin\StateController@stateListing")->name("stateListing");
+	Route::post("/dashboard/saveState", "admin\StateController@save")->name("saveState");
+	Route::post("/dashboard/deleteState", "admin\StateController@delete")->name("deleteState");
+	Route::get("/dashboard/stateDropdown", "admin\StateController@stateDropdown")->name("stateDropdown");
+
+	Route::get("/dashboard/cities", "admin\CityController@index")->name("cities");
+	Route::get("/dashboard/cityListing", "admin\CityController@cityListing")->name("cityListing");
+	Route::post("/dashboard/saveCity", "admin\CityController@save")->name("saveCity");
+	Route::post("/dashboard/deleteCity", "admin\CityController@delete")->name("deleteCity");
+	
 });
 
 // Route::get('/dashboard/updateUrl', 'admin\UpdateController@ajaxRequest');
