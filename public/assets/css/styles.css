@@ -53,6 +53,9 @@
 
 
 /*------------------------- 1. Core Css -------------------*/
+.breadcrumbs-area {
+    padding: 10px !important;
+}
 
 .page-container {
     width: 100%;
@@ -139,7 +142,8 @@
 }
 
 .sidebar-header {
-    padding: 19px 32px 20px;
+    background-color: white !important;
+    padding: 19px 32px 15px;
     background: #303641;
     border-bottom: 1px solid #343e50;
 }

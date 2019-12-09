@@ -29,7 +29,7 @@
                 <!-- <h4 class="page-title pull-left">Dashboard</h4> -->
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><span>Skills</span></li>
+                    <li><span>Countries</span></li>
                 </ul>
             </div>
         </div>
@@ -45,8 +45,8 @@
             <div class="card mt-5">
 
                 <div class="card-body">
-                    <h4 class="header-title"><span>Add New</span> Skill</h4>
-                    <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{ route('saveskill') }}">
+                    <h4 class="header-title"><span>Add New</span> Country</h4>
+                    <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{ route('saveCountry') }}">
                         <div class="form-row">
                             @if(session("msg"))
                             <div class="alert-dismiss">
@@ -73,13 +73,13 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
-                                <label for="skill">Skill</label>
-                                <input type="text" class="form-control" id="skill" name="skill" placeholder="Enter Skill" value="" required="">
+                                <label for="name">Country</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Country" value="" required="">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                                 <div class="invalid-feedback">
-                                    Please provide a valid skill.
+                                    Please provide a valid name.
                                 </div>
                             </div>                                        
                         </div>
@@ -94,12 +94,12 @@
         <div class="col-8 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Skills</h4>
+                    <h4 class="header-title">Country</h4>
                     <div class="data-tables datatable-dark">
                         <table id="my-dataTable" class="text-center">
                             <thead class="text-capitalize">
                                 <tr>
-                                    <th>Skill</th>
+                                    <th>Country</th>
                                     <th>Create Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -131,38 +131,38 @@
     <script src="{!! asset('assets/js/plugins.js') !!}"></script>
     <script src="{!! asset('assets/js/scripts.js') !!}"></script>
     <script src="{!! asset('assets/js/admin.js') !!}"></script>
+    
     <script>
+
+        // Item listing
         $(function() {
             $('#my-dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboard/skill_data') }}',
+                ajax: '{{ url('/dashboard/countriesListing') }}',
                 columns: [
-                { data: 'skill', name: 'skill' },
-                { data: 'created_at', name: 'created_at' },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action' }
+                    { data: 'name', name: 'name' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action' }
                 ]
             });
         });
-    </script>
-    <script type="text/javascript">
+
+        // Edit Item
         $(document).on('click', ".btn-edit", function(){
             debugger;
-                $("#my-form").find('.alert').fadeOut();
-                $("#my-form").find('.hiddenval').val($(this).data('id'));
-                $("#my-form").find('#skill').val($(this).closest('tr').find('td:eq(0)').text());
-                $('.header-title span').text('update');
-            });
-    </script>
+            $("#my-form").find('.alert').fadeOut();
+            $("#my-form").find('.hiddenval').val($(this).data('id'));
+            $("#my-form").find('#name').val($(this).closest('tr').find('td:eq(0)').text());
+            $('.header-title span').text('update');
+        });
 
-    <script>
-        $(function () {
-
-            $(document).on("click", ".btn-delete", function () {
+        // Delete Item
+        $ (function () {
+            $(document).on("click", ".btn-delete", function ()  {
 
                 var conf = confirm("Are you sure want to delete ?");
-
                 if (conf) {
 
                     // ajax call functions
@@ -173,15 +173,12 @@
                         "hiddenval": delete_id
                     }
 
-                    $.post("{{ route('deleteskill') }}", postdata, function (response) {
-                              debugger;
+                    $.post("{{ route('deletename') }}", postdata, function (response) {
+                        debugger;
                         var data = $.parseJSON(response);
-
                         if (data.status == 1) {
-
                             location.reload();
                         } else {
-
                             alert(data.message);
                         }
                     })

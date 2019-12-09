@@ -29,7 +29,7 @@
                 <!-- <h4 class="page-title pull-left">Dashboard</h4> -->
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><span>Skills</span></li>
+                    <li><span>Cities</span></li>
                 </ul>
             </div>
         </div>
@@ -45,8 +45,8 @@
             <div class="card mt-5">
 
                 <div class="card-body">
-                    <h4 class="header-title"><span>Add New</span> Skill</h4>
-                    <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{ route('saveskill') }}">
+                    <h4 class="header-title"><span>Add New</span> City</h4>
+                    <form class="needs-validation" novalidate="" id="my-form" method="post" action="{{ route('saveCity') }}">
                         <div class="form-row">
                             @if(session("msg"))
                             <div class="alert-dismiss">
@@ -73,13 +73,27 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
-                                <label for="skill">Skill</label>
-                                <input type="text" class="form-control" id="skill" name="skill" placeholder="Enter Skill" value="" required="">
+                                <div class="form-group">
+                                    <label for="country_id">Countries</label>
+                                    <select class="form-control" id="country_id" name="country_id">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state_id">States</label>
+                                    <select class="form-control" id="state_id" name="state_id">
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter City" value="" required="">
+                                </div>
+                               
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                                 <div class="invalid-feedback">
-                                    Please provide a valid skill.
+                                    Please provide a valid name.
                                 </div>
                             </div>                                        
                         </div>
@@ -94,12 +108,12 @@
         <div class="col-8 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Skills</h4>
+                    <h4 class="header-title">City</h4>
                     <div class="data-tables datatable-dark">
                         <table id="my-dataTable" class="text-center">
                             <thead class="text-capitalize">
                                 <tr>
-                                    <th>Skill</th>
+                                    <th>City</th>
                                     <th>Create Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -131,38 +145,83 @@
     <script src="{!! asset('assets/js/plugins.js') !!}"></script>
     <script src="{!! asset('assets/js/scripts.js') !!}"></script>
     <script src="{!! asset('assets/js/admin.js') !!}"></script>
+    
     <script>
+
+        // Countries Drop down
+        $(function() {
+            
+            $.get("{{ route('countriesDropdown') }}", [], function (response) {
+                $('#country_id').html(response);
+            })
+
+            var stateDropdown = BASEURL + "/dashboard/stateDropdown?country_id=233";
+            $.get(stateDropdown, [], function (response) {
+                $('#state_id').html(response);
+            })
+
+            $(document).on("change", "#country_id", function ()  {
+                var country_id = $(this).val(); 
+
+                var cityListing = BASEURL + "/dashboard/stateDropdown?country_id=" + country_id;
+                $.get(cityListing, [], function (response) {
+                    $('#state_id').html(response);
+                })
+            });
+
+            $(document).on("change", "#state_id", function ()  {
+
+                // ajax call functions
+                var state_id = $(this).val(); 
+                // alert (state_id);
+
+                var cityListing = BASEURL + "/dashboard/cityListing?state_id=" + state_id;
+
+                $('#my-dataTable').dataTable().fnDestroy();
+
+                $('#my-dataTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: cityListing,
+                    columns: [
+                        { data: 'name', name: 'name' },
+                        { data: 'created_at', name: 'created_at' },
+                        { data: 'status', name: 'status' },
+                        { data: 'action', name: 'action' }
+                    ]
+                });
+            });
+        });
+
+        // Item listing
         $(function() {
             $('#my-dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboard/skill_data') }}',
+                ajax: '{{ url('/dashboard/cityListing?state_id=1456') }}',
                 columns: [
-                { data: 'skill', name: 'skill' },
-                { data: 'created_at', name: 'created_at' },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action' }
+                    { data: 'name', name: 'name' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action' }
                 ]
             });
         });
-    </script>
-    <script type="text/javascript">
+
+        // Edit Item
         $(document).on('click', ".btn-edit", function(){
             debugger;
-                $("#my-form").find('.alert').fadeOut();
-                $("#my-form").find('.hiddenval').val($(this).data('id'));
-                $("#my-form").find('#skill').val($(this).closest('tr').find('td:eq(0)').text());
-                $('.header-title span').text('update');
-            });
-    </script>
+            $("#my-form").find('.alert').fadeOut();
+            $("#my-form").find('.hiddenval').val($(this).data('id'));
+            $("#my-form").find('#name').val($(this).closest('tr').find('td:eq(0)').text());
+            $('.header-title span').text('update');
+        });
 
-    <script>
-        $(function () {
-
-            $(document).on("click", ".btn-delete", function () {
+        // Delete Item
+        $ (function () {
+            $(document).on("click", ".btn-delete", function ()  {
 
                 var conf = confirm("Are you sure want to delete ?");
-
                 if (conf) {
 
                     // ajax call functions
@@ -173,15 +232,12 @@
                         "hiddenval": delete_id
                     }
 
-                    $.post("{{ route('deleteskill') }}", postdata, function (response) {
-                              debugger;
+                    $.post("{{ route('deleteCity') }}", postdata, function (response) {
+                        debugger;
                         var data = $.parseJSON(response);
-
                         if (data.status == 1) {
-
                             location.reload();
                         } else {
-
                             alert(data.message);
                         }
                     })
