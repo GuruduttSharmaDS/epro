@@ -22,11 +22,14 @@
 									?>
 									<li>
 										<div class="posted">
-										<h3><b>{{$job->title}}</b>{{$job->address}},
-										{{$job->city}}, {{$job->state}}, {{$job->country}}
-										<b>Job Status: </b> 
-										<span id="jobstatus_{{$job->job_req_id}}">
-										<?php
+											<h3><b>{{$job->title}}</b>{{$job->address}},
+											{{$job->city}}, {{$job->state}}, {{$job->country}}
+											</h3>
+											<time class="calen"><img src="{!! asset('assets/frontend/img/cal.svg') !!}" alt="">{{date('d/m/y', strtotime($job->job_start_on))}} - {{date('d/m/y', strtotime($job->job_end_on))}}
+											</time>
+										</div>
+										<div class="price">Price : <span>1500/-</span> </div>
+										<div class="job-status">Job Status : <span id="jobstatus_{{$job->job_req_id}}"><?php
 										if($job->job_status == 0){
 											echo 'Pending';
 											
@@ -36,25 +39,24 @@
 										}else{
 											echo 'Declined';
 										}
-										?>
-										</span>
-										</h3>
-										<h3>
-										</h3>
-										
-							<time class="calen"><img src="{!! asset('assets/frontend/img/cal.svg') !!}" alt="">{{date('d/m/y', strtotime($job->job_start_on))}} - {{date('d/m/y', strtotime($job->job_end_on))}}
-									</time>
+										?></span> </div>
+										<div class="raiting">
+											<span class="fa fa-star checked"></span>
+											<span class="fa fa-star checked"></span>
+											<span class="fa fa-star checked"></span>
+											<span class="fa fa-star checked"></span>
+											<span class="fa fa-star"></span>
 										</div>
-											<div class="pending-button" id="pending-button_{{$job->job_req_id}}">
+										<div class="status-report" id="pending-button_{{$job->job_req_id}}">
 											<?php
 											if($job->job_status == 0){
 												?>
-												<a class="green" href="javascript:void(0)" onclick="change_status('1',{{$job->job_req_id}})">Accept</a>
-												<a class="yello" href="javascript:void(0)" onclick="change_status('2',{{$job->job_req_id}})">Decline</a>
+											<button type="button" class="btn btn-success" onclick="change_status('1',{{$job->job_req_id}})">Accept</button>
+											<button type="button" class="btn btn-danger" onclick="change_status('2',{{$job->job_req_id}})">Declined</button>
 											<?php	
 											}
-											?>
-											</div>
+											?>	
+										</div>
 										<p>
 										{{$job->description}}
 										</p>

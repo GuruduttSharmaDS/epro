@@ -2551,6 +2551,52 @@ a.blu {
     background-color: #f0ad4e;
 }
 
+.price{
+	margin-top: 5px !important;
+	margin-bottom: 5px !important;
+	color: #787878;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.31px;
+    line-height: 24px;
+}
+
+.job-status{
+	margin-top: 0px !important;
+	margin-bottom: 5px !important;
+	color: #787878;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.31px;
+    line-height: 24px;
+}
+
+.price span, .job-status span {
+	background: transparent !important;
+	border: none !important;
+	opacity: 1 !important;
+	font-weight: 600;
+}
+
+.raiting .checked {
+  color: orange;
+}
+
+.raiting{
+	margin-bottom: 0px;
+}
+
+.raiting span {
+    background: none !important;
+    border: none !important;
+    padding: 0 1px !important;
+    opacity: 1 !important;
+}
+
+.status-report, .payment-button {
+    margin-bottom: 10px;
+}
+
 /* task details page */
 .task-details h2{
 	margin-bottom: 10px;

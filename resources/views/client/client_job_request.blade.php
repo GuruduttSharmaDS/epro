@@ -34,12 +34,16 @@
 									if(isset($jobs) && !empty($jobs)){
 										foreach($jobs as $job){
 									?>
+									 
 									<li>
 										<div class="posted">
-										<h3><b><a href="{{asset('/client/job/job-detail/'.$job->job_id)}}">{{$job->title}}</a></b>{{$job->address}},
-										{{$job->city}}, {{$job->state}}, {{$job->country}}
-										<b>Job Status: </b>
-										<?php
+											<h3><b><a href="{{asset('/client/job/job-detail/'.$job->job_id)}}">{{$job->title}}</a></b>{{$job->address}},
+											{{$job->city}}, {{$job->state}}, {{$job->country}}</h3>
+											<time class="calen"><img src="{!! asset('assets/frontend/img/cal.svg') !!}" alt="">{{date('d/m/y', strtotime($job->job_start_on))}} - {{date('d/m/y', strtotime($job->job_end_on))}}
+											</time>
+										</div>
+										<div class="price">Price : <span>{{$job->price}}</span> </div>
+										<div class="job-status">Job Status : <span id="jobstatus_{{$job->job_req_id}}"><?php
 										if($job->job_status == 0){
 											echo "Pending";
 										}else if($job->job_status == 1){
@@ -47,15 +51,10 @@
 										}else{
 											echo "Declined";
 										}
-										?>
-										</h3>
-										
-										<time class="calen"><img src="{!! asset('assets/frontend/img/cal.svg') !!}" alt="">{{date('d/m/y', strtotime($job->job_start_on))}} - {{date('d/m/y', strtotime($job->job_end_on))}}
-										
-										</time>
-										</div>
-										<div class="pending-button" id="pending-button_{{$job->job_req_id}}">
-											<?php
+										?></span> </div>
+										<div class="price">Freelance : <span>{{$job->freelancer}}</span> </div>
+										<div class="payment-button" id="pending-button_{{$job->job_req_id}}">
+										<?php
 											if($job->job_status == 1 && $job->is_payment != 1){
 												?>
 												<form method="POST" action="{{ route('payment') }}">
@@ -65,12 +64,12 @@
 												<input type="hidden" name="job_id" value="{{$job->job_id}}">
 												<input type="hidden" name="user_id" value="{{$job->user_id}}">
 												<input type="hidden" name="client_id" value="{{$job->client_id}}">
-												<button>Pay Now</button>
-												</form>
+											<button type="button" class="btn btn-primary">Pay Now</button>
+											</form>
 											<?php	
 											}
 											?>
-											</div>
+										</div>
 										<p>
 										{{$job->description}}
 										</p>
