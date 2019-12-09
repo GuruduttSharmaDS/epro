@@ -41,8 +41,10 @@ class CommonController extends Controller
       $return = $this->ajax_jobrequest($data);
     else if($action=="getstate")
       $return = $this->getstate($data);
-  else if($action=="getcity")
+    else if($action=="getcity")
       $return = $this->getcity($data);
+    else if($action=="change_status")
+      $return = $this->change_status($data);
 
     return response()->json($return);
 
@@ -392,7 +394,25 @@ class CommonController extends Controller
 	   $response['data'] = $city_list; 
 	   return $response;
   }
+  public function change_status($data){
+		$response = array('valid' => false, 'msg'=>'Invalid Request');  
+    $JobRequest = JobRequest::find($data->job_req_id);
+    $JobRequest->job_status = $data->status;
+    if($JobRequest->save()){
+      $response['valid'] = true;
+      if($data->status == 1){
+        $response['msg'] = 'Job Accepted Successfully'; 
+      }else{
+        $response['msg'] = 'Job Declined Successfully'; 
+      }
+     
 
+    }else{
+      $response['msg'] = 'Something wrong.';
+    }
+	   return $response;
+  }
+  
  
 
 

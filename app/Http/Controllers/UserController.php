@@ -276,7 +276,8 @@ public function save_user_data(Request $request){
 		$pageTitle = "Job Request";
         $jobs = DB::table('fp_jobs')
                  ->select('fp_jobs.*', 'fp_cities.name as city','fp_countries.name as country',
-                 'fp_states.name as state','fp_job_requests.*','fp_job_requests.status as job_request_status')
+                 'fp_states.name as state','fp_job_requests.*','fp_job_requests.status as job_request_status',
+                 'fp_job_requests.id as job_req_id')
                  ->join('fp_job_requests', 'fp_job_requests.job_id', '=', 'fp_jobs.id')
                  ->join('fp_cities', 'fp_cities.id', '=', 'fp_jobs.city_id')
                  ->join('fp_countries', 'fp_countries.id', '=', 'fp_jobs.country_id')

@@ -81,7 +81,7 @@ if(!empty($users)) {
 					<div class="locktion2">
 						<h3>
 							<a class="checkuserLogin" href="{{asset('/gaurd-detail/'.$user->id)}}"> 
-								{{ ucfirst ($user->first_name).' '. ucfirst ($user->last_name) }}
+								{{ ucfirst ($user->first_name).' '. ucfirst ($user->last_name)}}
 							</a> 
 
 							@if ($user->is_user_verified == '1')

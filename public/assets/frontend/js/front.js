@@ -287,6 +287,40 @@ function city_list(obj,e){
 	
 }
 
+function change_status(status,job_req_id){
+  var action =  'change_status';
+$.ajax({
+  url: COMMONURL,
+  type:'POST',
+  headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+  data:{action:action,status:status,job_req_id:job_req_id},
+  dataType: "json",
+  success: function(response) {
+    if(response.valid){
+      if(status == 1){
+        var textdata = 'Accepted';
+      }else{
+        var textdata = 'Declined';
+      }
+      $('#jobstatus_'+job_req_id).html(textdata);
+      $('#pending-button_'+job_req_id).html('');
+      $('.alert-success').show();
+      $('.alert-success').append('<p>'+response.msg+'</p>');
+    }else{
+      $('.alert-danger').show();
+      $('.alert-danger').append('<p>'+response.msg+'</p>');
+    }
+
+  },
+  error:function(response){
+    $('.alert-danger').show();
+    $('.alert-danger').append('<p>'+response.msg+'</p>');   
+  }
+});
+
+}
+
+
 
 /*------Forgot Password----*/
 function forgotcheck(obj,e){

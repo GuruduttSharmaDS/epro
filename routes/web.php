@@ -78,6 +78,10 @@ Route::get('/security-service',"HomeController@security_service")->name("securit
     return view('welcome');
 });*/
 //Route::resource("/common","CommonController");
+Route::get('/payment', 'PayPalController@payment')->name('payment');
+Route::get('/cancel', 'PayPalController@cancel')->name('payment.cancel');
+Route::get('payment/success', 'PayPalController@success')->name('payment.success');
+
 Route::post('/common',"CommonController@index")->name("common");
 Route::match(['get', 'post'], 'ajax-image-upload', 'UserController@ajaxImage');
 Route::match(['get', 'post'], 'ajax-client-image-upload', 'client\DashboardController@ajaxImage');
@@ -104,5 +108,8 @@ Route::post("/client/save-client-data", "client\DashboardController@save_user_da
 Route::get('/client/client-task','client\DashboardController@user_task')->name("client-task");
 Route::get('/client/job/create','client\JobController@create')->name("client-job-create");
 Route::get('/client/job/job-request','client\JobController@request_listing')->name("client-request");
-
+Route::post('/client/payment', 'client\PayPalController@payment')->name('payment');
+Route::get('/client/cancel', 'client\PayPalController@cancel')->name('payment.cancel');
+Route::get('/client/payment/success', 'client\PayPalController@success')->name('payment.success');
+Route::get('/client/job/job-detail/{id}', 'client\JobController@job_detail')->name('job-detail');
 });
